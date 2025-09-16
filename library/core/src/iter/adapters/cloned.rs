@@ -2,7 +2,7 @@ use core::num::NonZero;
 
 use crate::iter::adapters::zip::try_get_unchecked;
 use crate::iter::adapters::{SourceIter, TrustedRandomAccess, TrustedRandomAccessNoCoerce};
-use crate::iter::{FusedIterator, InPlaceIterable, TrustedLen};
+use crate::iter::{FusedIterator, InPlaceIterable, InfiniteIterator, TrustedLen};
 use crate::ops::Try;
 
 /// An iterator that clones the elements of an underlying iterator.
@@ -174,4 +174,15 @@ where
 unsafe impl<I: InPlaceIterable> InPlaceIterable for Cloned<I> {
     const EXPAND_BY: Option<NonZero<usize>> = I::EXPAND_BY;
     const MERGE_BY: Option<NonZero<usize>> = I::MERGE_BY;
+}
+
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I: !ExactSizeIterator> !ExactSizeIterator for Cloned<I> {}
+
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<'a, I, T: 'a> InfiniteIterator for Cloned<I>
+where
+    I: InfiniteIterator<Item = &'a T>,
+    T: Clone,
+{
 }

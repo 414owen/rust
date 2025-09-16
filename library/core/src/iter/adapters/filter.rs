@@ -4,7 +4,7 @@ use core::ops::ControlFlow;
 
 use crate::fmt;
 use crate::iter::adapters::SourceIter;
-use crate::iter::{FusedIterator, InPlaceIterable, TrustedFused, TrustedLen};
+use crate::iter::{FusedIterator, InPlaceIterable, InfiniteIterator, TrustedFused, TrustedLen};
 use crate::num::NonZero;
 use crate::ops::Try;
 
@@ -250,4 +250,15 @@ impl<I: TrustedLen> SpecAssumeCount for I {
         // SAFETY: The `upper` is trusted because it came from a `TrustedLen` iterator.
         unsafe { crate::hint::assert_unchecked(count <= upper) }
     }
+}
+
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I, P> !ExactSizeIterator for Filter<I, P> {}
+
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I, P> InfiniteIterator for Filter<I, P>
+where
+    I: InfiniteIterator,
+    P: FnMut(&I::Item) -> bool,
+{
 }
