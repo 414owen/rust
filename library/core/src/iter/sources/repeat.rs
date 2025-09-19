@@ -1,5 +1,5 @@
-use crate::iter::traits::InfiniteIterator;
-use crate::iter::{FusedIterator, TrustedLen};
+use crate::iter::traits::QuantifiedIterator;
+use crate::iter::{FusedIterator, Infinite, TrustedLen};
 use crate::num::NonZero;
 
 /// Creates a new iterator that endlessly repeats a single element.
@@ -135,7 +135,6 @@ impl<A: Clone> FusedIterator for Repeat<A> {}
 unsafe impl<A: Clone> TrustedLen for Repeat<A> {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A> !ExactSizeIterator for Repeat<A> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A: Clone> InfiniteIterator for Repeat<A> {}
+impl<A: Clone> QuantifiedIterator for Repeat<A> {
+    type Quantity = Infinite;
+}

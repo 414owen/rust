@@ -1,6 +1,6 @@
 use crate::fmt;
-use crate::iter::traits::InfiniteIterator;
-use crate::iter::{FusedIterator, TrustedLen};
+use crate::iter::traits::QuantifiedIterator;
+use crate::iter::{FusedIterator, Infinite, TrustedLen};
 use crate::ops::Try;
 
 /// Creates a new iterator that repeats elements of type `A` endlessly by
@@ -126,4 +126,6 @@ unsafe impl<A, F: FnMut() -> A> TrustedLen for RepeatWith<F> {}
 impl<F> !ExactSizeIterator for RepeatWith<F> {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A, F: FnMut() -> A> InfiniteIterator for RepeatWith<F> {}
+impl<A, F: FnMut() -> A> QuantifiedIterator for RepeatWith<F> {
+    type Quantity = Infinite;
+}

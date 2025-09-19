@@ -1,4 +1,4 @@
-use crate::iter::{FusedIterator, InfiniteIterator, TrustedLen};
+use crate::iter::{Exact, Finite, FusedIterator, Infinite, QuantifiedIterator, TrustedLen};
 use crate::num::NonZero;
 use crate::ops::Try;
 
@@ -336,14 +336,32 @@ fn and_then_or_clear<T, U>(opt: &mut Option<T>, f: impl FnOnce(&mut T) -> Option
     x
 }
 
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A, B> !ExactSizeIterator for Chain<A, B> {}
+trait ChainQuantity {
+    type Result;
+}
 
-// FIXME: Get this working with the symmetrical variant
+impl ChainQuantity for (Exact, Exact) {
+    type Result = Finite;
+}
+
+impl ChainQuantity for (Finite, Finite) {
+    type Result = Finite;
+}
+
+impl<A> ChainQuantity for (Infinite, A) {
+    type Result = Infinite;
+}
+
+impl<A> ChainQuantity for (A, Infinite) {
+    type Result = Infinite;
+}
+
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A, B> InfiniteIterator for Chain<A, B>
+impl<A, B> QuantifiedIterator for Chain<A, B>
 where
-    A: Iterator,
-    B: InfiniteIterator<Item = A::Item>,
+    A: QuantifiedIterator,
+    B: QuantifiedIterator<Item = A::Item>,
+    (A::Quantity, B::Quantity): ChainQuantity,
 {
+    type Quantity = <(A::Quantity, B::Quantity) as ChainQuantify>::Result;
 }

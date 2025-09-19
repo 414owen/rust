@@ -12,16 +12,19 @@
 /// have:
 ///
 /// ```text
-/// impl<A: Clone> InfiniteIterator for Repeat<A> {}
+/// impl<A: Clone> QuantifiedIterator for Repeat<A> {}
 /// impl<A: Clone, B: ExactSizeIterator> ExactSizeIterator for Zip<Repeat<A>, B> {}
 /// impl<A: ExactSizeIterator, B: Clone> ExactSizeIterator for Zip<A, Repeat<B>> {}
 /// ```
-#[allow(multiple_supertrait_upcastable)]
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-pub trait InfiniteIterator: Iterator + !ExactSizeIterator {}
+pub struct Exact {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+pub struct Finite {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+pub struct Infinite {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<'a, I: InfiniteIterator + ?Sized> InfiniteIterator for &'a mut I where
-    &'a mut I: !ExactSizeIterator
-{
+pub trait QuantifiedIterator: Iterator {
+    #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+    type Quantity;
 }

@@ -1,5 +1,5 @@
 use crate::iter::adapters::SourceIter;
-use crate::iter::{FusedIterator, InfiniteIterator, TrustedLen};
+use crate::iter::{FusedIterator, QuantifiedIterator, TrustedLen};
 use crate::ops::{ControlFlow, Try};
 
 /// An iterator with a `peek()` that returns an optional reference to the next
@@ -439,7 +439,6 @@ where
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: !ExactSizeIterator> !ExactSizeIterator for Peekable<I> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: InfiniteIterator> InfiniteIterator for Peekable<I> {}
+impl<I: QuantifiedIterator> QuantifiedIterator for Peekable<I> {
+    type Quantity = I::Quantity;
+}

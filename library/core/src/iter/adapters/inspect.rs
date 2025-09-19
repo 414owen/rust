@@ -1,6 +1,6 @@
 use crate::fmt;
 use crate::iter::adapters::SourceIter;
-use crate::iter::{FusedIterator, InPlaceIterable, InfiniteIterator, TrustedFused};
+use crate::iter::{FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused};
 use crate::num::NonZero;
 use crate::ops::Try;
 
@@ -174,7 +174,9 @@ unsafe impl<I: InPlaceIterable, F> InPlaceIterable for Inspect<I, F> {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: !ExactSizeIterator, F> !ExactSizeIterator for Inspect<I, F> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: InfiniteIterator, F> InfiniteIterator for Inspect<I, F> where F: FnMut(&I::Item) {}
+impl<I: QuantifiedIterator, F> QuantifiedIterator for Inspect<I, F>
+where
+    F: FnMut(&I::Item),
+{
+    type Quantity = I::Quantity;
+}

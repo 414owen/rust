@@ -3,7 +3,7 @@ use core::num::NonZero;
 use crate::iter::adapters::zip::try_get_unchecked;
 use crate::iter::adapters::{SourceIter, TrustedRandomAccess, TrustedRandomAccessNoCoerce};
 use crate::iter::{
-    FusedIterator, InPlaceIterable, InfiniteIterator, TrustedLen, UncheckedIterator,
+    FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedLen, UncheckedIterator,
 };
 use crate::ops::Try;
 
@@ -192,12 +192,10 @@ unsafe impl<I: InPlaceIterable> InPlaceIterable for Cloned<I> {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: !ExactSizeIterator> !ExactSizeIterator for Cloned<I> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<'a, I, T: 'a> InfiniteIterator for Cloned<I>
+impl<'a, I, T: 'a> QuantifiedIterator for Cloned<I>
 where
-    I: InfiniteIterator<Item = &'a T>,
+    I: QuantifiedIterator<Item = &'a T>,
     T: Clone,
 {
+    type Quantity = <I as QuantifiedIterator>::Quantity;
 }

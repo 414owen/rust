@@ -4,7 +4,7 @@ use core::ops::ControlFlow;
 
 use crate::fmt;
 use crate::iter::adapters::SourceIter;
-use crate::iter::{FusedIterator, InPlaceIterable, InfiniteIterator, TrustedFused};
+use crate::iter::{FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused};
 use crate::num::NonZero;
 use crate::ops::Try;
 
@@ -219,9 +219,9 @@ unsafe impl<I: InPlaceIterable, P> InPlaceIterable for Filter<I, P> {
 impl<I, P> !ExactSizeIterator for Filter<I, P> {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I, P> InfiniteIterator for Filter<I, P>
+impl<I, P> QuantifiedIterator for Filter<I, P>
 where
-    I: InfiniteIterator,
+    I: QuantifiedIterator,
     P: FnMut(&I::Item) -> bool,
 {
 }

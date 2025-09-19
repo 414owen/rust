@@ -2,9 +2,9 @@ mod accum;
 mod collect;
 mod double_ended;
 mod exact_size;
-mod infinite;
 mod iterator;
 mod marker;
+mod quantified;
 mod unchecked_iterator;
 
 #[unstable(issue = "none", feature = "inplace_iteration")]
@@ -20,7 +20,7 @@ pub use self::{
     collect::{Extend, FromIterator, IntoIterator},
     double_ended::DoubleEndedIterator,
     exact_size::ExactSizeIterator,
-    infinite::InfiniteIterator,
     iterator::Iterator,
     marker::{FusedIterator, TrustedLen},
+    quantified::{Exact, Finite, Infinite, QuantifiedIterator},
 };

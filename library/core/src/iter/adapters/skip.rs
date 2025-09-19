@@ -2,7 +2,7 @@ use crate::intrinsics::unlikely;
 use crate::iter::adapters::SourceIter;
 use crate::iter::adapters::zip::try_get_unchecked;
 use crate::iter::{
-    FusedIterator, InPlaceIterable, InfiniteIterator, TrustedFused, TrustedLen,
+    Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused, TrustedLen,
     TrustedRandomAccess, TrustedRandomAccessNoCoerce,
 };
 use crate::num::NonZero;
@@ -184,8 +184,10 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<I> ExactSizeIterator for Skip<I> where I: ExactSizeIterator {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I: QuantifiedIterator> QuantifiedIterator for Skip<I> {
+    type Quantity = I::Quantity;
+}
 
 #[stable(feature = "double_ended_skip_iterator", since = "1.9.0")]
 impl<I> DoubleEndedIterator for Skip<I>
@@ -289,7 +291,6 @@ where
 unsafe impl<I> TrustedLen for Skip<I> where I: Iterator + TrustedRandomAccess {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: !ExactSizeIterator> !ExactSizeIterator for Skip<I> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I> InfiniteIterator for Skip<I> where I: InfiniteIterator {}
+impl<I: QuantifiedIterator> QuantifiedIterator for Skip<I> {
+    type Quantity = I::Quantity;
+}

@@ -1,3 +1,5 @@
+use crate::iter::{Exact, QuantifiedIterator};
+
 /// An iterator that knows its exact length.
 ///
 /// Many [`Iterator`]s don't know how many times they will iterate, but some do.
@@ -149,6 +151,9 @@ pub trait ExactSizeIterator: Iterator {
         self.len() == 0
     }
 }
+
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<A> ExactSizeIterator for A where A: QuantifiedIterator<Quantity = Exact> {}
 
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<I: ExactSizeIterator + ?Sized> ExactSizeIterator for &mut I {

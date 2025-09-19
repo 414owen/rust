@@ -1,5 +1,5 @@
 use crate::iter::{
-    FusedIterator, InfiniteIterator, Step, TrustedLen, TrustedRandomAccess,
+    FusedIterator, Infinite, QuantifiedIterator, Step, TrustedLen, TrustedRandomAccess,
     TrustedRandomAccessNoCoerce, TrustedStep,
 };
 use crate::num::NonZero;
@@ -343,4 +343,6 @@ impl<A: Step> IntoIterator for RangeFrom<A> {
 impl<A> !ExactSizeIterator for IterRangeFrom<A> {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A: Step> InfiniteIterator for IterRangeFrom<A> {}
+impl<A: Step> QuantifiedIterator for IterRangeFrom<A> {
+    type Quantity = Infinite;
+}

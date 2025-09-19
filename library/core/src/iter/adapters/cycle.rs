@@ -1,4 +1,4 @@
-use crate::iter::{FusedIterator, InfiniteIterator};
+use crate::iter::{FusedIterator, QuantifiedIterator};
 use crate::num::NonZero;
 use crate::ops::Try;
 
@@ -112,4 +112,4 @@ impl<I> FusedIterator for Cycle<I> where I: Clone + Iterator {}
 impl<I> !ExactSizeIterator for Cycle<I> {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: Clone + Iterator> InfiniteIterator for Cycle<I> {}
+impl<I: Clone + Iterator> QuantifiedIterator for Cycle<I> {}

@@ -1,5 +1,5 @@
 use crate::intrinsics;
-use crate::iter::{InfiniteIterator, TrustedLen, TrustedRandomAccess, from_fn};
+use crate::iter::{QuantifiedIterator, TrustedLen, TrustedRandomAccess, from_fn};
 use crate::num::NonZero;
 use crate::ops::{Range, Try};
 
@@ -131,10 +131,6 @@ where
     }
 }
 
-// StepBy can only make the iterator shorter, so the len will still fit.
-#[stable(feature = "iterator_step_by", since = "1.28.0")]
-impl<I> ExactSizeIterator for StepBy<I> where I: ExactSizeIterator {}
-
 // SAFETY: This adapter is shortening. TrustedLen requires the upper bound to be calculated correctly.
 // These requirements can only be satisfied when the upper bound of the inner iterator's upper
 // bound is never `None`. I: TrustedRandomAccess happens to provide this guarantee while
@@ -144,10 +140,12 @@ impl<I> ExactSizeIterator for StepBy<I> where I: ExactSizeIterator {}
 unsafe impl<I> TrustedLen for StepBy<I> where I: Iterator + TrustedRandomAccess {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: !ExactSizeIterator> !ExactSizeIterator for StepBy<I> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: InfiniteIterator> InfiniteIterator for StepBy<I> {}
+impl<I: QuantifiedIterator, Q> QuantifiedIterator for StepBy<I>
+where
+    I: QuantifiedIterator<Quantity = Q>,
+{
+    type Quantity = Q;
+}
 
 trait SpecRangeSetup<T> {
     fn setup(inner: T, step: usize) -> T;

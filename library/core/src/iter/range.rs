@@ -2,7 +2,7 @@ use super::{
     FusedIterator, TrustedLen, TrustedRandomAccess, TrustedRandomAccessNoCoerce, TrustedStep,
 };
 use crate::ascii::Char as AsciiChar;
-use crate::iter::InfiniteIterator;
+use crate::iter::{Infinite, QuantifiedIterator};
 use crate::mem;
 use crate::net::{Ipv4Addr, Ipv6Addr};
 use crate::num::NonZero;
@@ -1033,10 +1033,9 @@ impl<A: Step> Iterator for ops::RangeFrom<A> {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A> !ExactSizeIterator for ops::RangeFrom<A> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A: Step> InfiniteIterator for ops::RangeFrom<A> {}
+impl<A: Step> QuantifiedIterator for ops::RangeFrom<A> {
+    type Quantity = Infinite;
+}
 
 // Safety: See above implementation for `ops::Range<A>`
 #[unstable(feature = "trusted_len", issue = "37572")]

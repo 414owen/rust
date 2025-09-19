@@ -1,7 +1,7 @@
 use crate::iter::adapters::SourceIter;
 use crate::iter::{
-    Cloned, Copied, Empty, Filter, FilterMap, Fuse, FusedIterator, InfiniteIterator, Map, Once,
-    OnceWith, TrustedFused, TrustedLen,
+    Cloned, Copied, Empty, Exact, Filter, FilterMap, Finite, Fuse, FusedIterator, Infinite, Map,
+    Once, OnceWith, QuantifiedIterator, TrustedFused, TrustedLen,
 };
 use crate::num::NonZero;
 use crate::ops::{ControlFlow, Try};
@@ -172,24 +172,52 @@ where
     }
 }
 
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: !ExactSizeIterator, U, F> !ExactSizeIterator for FlatMap<I, U, F> {}
+// (Outer, Inner) -> Flattened
+trait FlattenQuantity {
+    type Result;
+}
 
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I, U, F> !ExactSizeIterator for FlatMap<I, U, F>
-where
-    I: ExactSizeIterator<Item = U>,
-    U: !ExactSizeIterator,
-{
+// Cases (Exact, Infinite), and (Finite, Infinite)
+// will either yield no element or infinite elements
+// which we can't currently characterize with a
+// `Quantity`.
+
+impl FlattenQuantity for (Exact, Exact) {
+    type Result = Finite;
+}
+
+impl FlattenQuantity for (Exact, Finite) {
+    type Result = Finite;
+}
+
+impl FlattenQuantity for (Finite, Exact) {
+    type Result = Finite;
+}
+
+impl FlattenQuantity for (Finite, Finite) {
+    type Result = Finite;
+}
+
+impl<A> FlattenQuantity for (Infinite, A) {
+    type Result = Infinite;
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I, U, F> InfiniteIterator for FlatMap<I, U, F>
+impl<I, U, F> QuantifiedIterator for FlatMap<I, U, F>
 where
-    I: InfiniteIterator,
+    I: QuantifiedIterator,
     U: IntoIterator,
     F: FnMut(I::Item) -> U,
+    (
+        <I as QuantifiedIterator>::Quantity,
+        <<U as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
+    ): FlattenQuantity,
+    U::IntoIter: QuantifiedIterator,
 {
+    type Quantity = <(
+        <I as QuantifiedIterator>::Quantity,
+        <<U as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
+    ) as FlattenQuantity>::Result;
 }
 
 /// An iterator that flattens one level of nesting in an iterator of things
@@ -370,18 +398,19 @@ where
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: !ExactSizeIterator> !ExactSizeIterator for Flatten<I> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I> !ExactSizeIterator for Flatten<I>
+impl<I> QuantifiedIterator for Flatten<I>
 where
-    I: ExactSizeIterator,
-    I::Item: !ExactSizeIterator,
+    I: QuantifiedIterator<Item: IntoIterator>,
+    (
+        <I as QuantifiedIterator>::Quantity,
+        <<<I as Iterator>::Item as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
+    ): FlattenQuantity,
 {
+    type Quantity = <(
+        <I as QuantifiedIterator>::Quantity,
+        <<<I as Iterator>::Item as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
+    ) as FlattenQuantity>::Result;
 }
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I> InfiniteIterator for Flatten<I> where I: InfiniteIterator<Item: IntoIterator> {}
 
 /// Real logic of both `Flatten` and `FlatMap` which simply delegate to
 /// this type.
@@ -747,22 +776,20 @@ where
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: !ExactSizeIterator, U> !ExactSizeIterator for FlattenCompat<I, U> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I, U> !ExactSizeIterator for FlattenCompat<I, U>
+impl<I, U> QuantifiedIterator for FlattenCompat<I, U>
 where
-    I: ExactSizeIterator<Item: IntoIterator<IntoIter = U, Item = U::Item>>,
-    U: Iterator + !ExactSizeIterator,
-{
-}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I, U> InfiniteIterator for FlattenCompat<I, U>
-where
-    I: InfiniteIterator<Item: IntoIterator<IntoIter = U, Item = U::Item>>,
+    I: QuantifiedIterator<Item: IntoIterator<IntoIter = U, Item = U::Item>>,
     U: Iterator,
+    (
+        <I as QuantifiedIterator>::Quantity,
+        <<U as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
+    ): FlattenQuantity,
+    U::IntoIter: QuantifiedIterator,
 {
+    type Quantity = <(
+        <I as QuantifiedIterator>::Quantity,
+        <<U as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
+    ) as FlattenQuantity>::Result;
 }
 
 trait ConstSizeIntoIterator: IntoIterator {

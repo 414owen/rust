@@ -1,7 +1,7 @@
 use crate::fmt;
 use crate::iter::adapters::zip::try_get_unchecked;
 use crate::iter::adapters::{SourceIter, TrustedRandomAccess, TrustedRandomAccessNoCoerce};
-use crate::iter::traits::InfiniteIterator;
+use crate::iter::traits::QuantifiedIterator;
 use crate::iter::{FusedIterator, InPlaceIterable, TrustedFused, TrustedLen, UncheckedIterator};
 use crate::num::NonZero;
 use crate::ops::Try;
@@ -242,12 +242,9 @@ unsafe impl<I: InPlaceIterable, F> InPlaceIterable for Map<I, F> {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: !ExactSizeIterator, F> !ExactSizeIterator for Map<I, F> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<B, I: Iterator, F> InfiniteIterator for Map<I, F>
+impl<B, I: QuantifiedIterator, F> QuantifiedIterator for Map<I, F>
 where
     F: FnMut(I::Item) -> B,
-    I: InfiniteIterator + !ExactSizeIterator,
 {
+    type Quantity = <I as QuantifiedIterator>::Quantity;
 }

@@ -1,10 +1,10 @@
-use std::iter::{InfiniteIterator, once, repeat, repeat_with};
+use std::iter::{QuantifiedIterator, once, repeat, repeat_with};
 
 fn test_exact<I: ExactSizeIterator>(iter: I, len: usize) {
     assert_eq!(iter.len(), len);
 }
 
-fn test_infinite<I: InfiniteIterator>(_: I) {}
+fn test_infinite<I: QuantifiedIterator>(_: I) {}
 
 const N: u8 = 42;
 
