@@ -1795,7 +1795,7 @@ impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for Iter<'_, T> {
+impl<T>  QuantifiedIterator for Iter<'_, T> {
     fn len(&self) -> usize {
         self.iter.len()
     }
@@ -1838,7 +1838,7 @@ impl<T, A: Allocator + Clone> DoubleEndedIterator for IntoIter<T, A> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T, A: Allocator + Clone> ExactSizeIterator for IntoIter<T, A> {
+impl<T, A: Allocator + Clone>  QuantifiedIterator for IntoIter<T, A> {
     fn len(&self) -> usize {
         self.iter.len()
     }

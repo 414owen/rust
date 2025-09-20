@@ -180,7 +180,7 @@ impl<I, const N: usize> FusedIterator for ArrayChunks<I, N> where I: FusedIterat
 unsafe impl<I, const N: usize> TrustedFused for ArrayChunks<I, N> where I: TrustedFused + Iterator {}
 
 #[unstable(feature = "iter_array_chunks", reason = "recently added", issue = "100450")]
-impl<I, const N: usize> ExactSizeIterator for ArrayChunks<I, N>
+impl<I, const N: usize>  QuantifiedIterator for ArrayChunks<I, N>
 where
     I: ExactSizeIterator,
 {

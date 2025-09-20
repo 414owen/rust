@@ -240,7 +240,7 @@ impl<T, A: Allocator> Drop for Drain<'_, T, A> {
 }
 
 #[stable(feature = "drain", since = "1.6.0")]
-impl<T, A: Allocator> ExactSizeIterator for Drain<'_, T, A> {
+impl<T, A: Allocator>  QuantifiedIterator for Drain<'_, T, A> {
     fn is_empty(&self) -> bool {
         self.iter.is_empty()
     }

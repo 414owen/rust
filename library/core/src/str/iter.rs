@@ -385,7 +385,7 @@ impl DoubleEndedIterator for Bytes<'_> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl ExactSizeIterator for Bytes<'_> {
+impl  QuantifiedIterator for Bytes<'_> {
     #[inline]
     fn len(&self) -> usize {
         self.0.len()

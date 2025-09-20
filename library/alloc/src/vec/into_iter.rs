@@ -415,7 +415,7 @@ impl<T, A: Allocator> DoubleEndedIterator for IntoIter<T, A> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T, A: Allocator> ExactSizeIterator for IntoIter<T, A> {
+impl<T, A: Allocator>  QuantifiedIterator for IntoIter<T, A> {
     fn is_empty(&self) -> bool {
         if T::IS_ZST {
             self.ptr.as_ptr() == self.end as *mut _

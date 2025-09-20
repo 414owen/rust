@@ -268,7 +268,7 @@ impl<T, A: Allocator> DoubleEndedIterator for Drain<'_, T, A> {
 }
 
 #[stable(feature = "drain", since = "1.6.0")]
-impl<T, A: Allocator> ExactSizeIterator for Drain<'_, T, A> {}
+impl<T, A: Allocator>  QuantifiedIterator for Drain<'_, T, A> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T, A: Allocator> FusedIterator for Drain<'_, T, A> {}

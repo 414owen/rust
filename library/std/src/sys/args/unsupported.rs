@@ -34,7 +34,7 @@ impl DoubleEndedIterator for Args {
     }
 }
 
-impl ExactSizeIterator for Args {
+impl  QuantifiedIterator for Args {
     #[inline]
     fn len(&self) -> usize {
         0

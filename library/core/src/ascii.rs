@@ -152,7 +152,7 @@ impl DoubleEndedIterator for EscapeDefault {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl ExactSizeIterator for EscapeDefault {
+impl  QuantifiedIterator for EscapeDefault {
     #[inline]
     fn len(&self) -> usize {
         self.0.len()

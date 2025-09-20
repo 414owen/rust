@@ -1574,7 +1574,7 @@ impl<'a, K> Iterator for Iter<'a, K> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<K> ExactSizeIterator for Iter<'_, K> {
+impl<K>  QuantifiedIterator for Iter<'_, K> {
     #[inline]
     fn len(&self) -> usize {
         self.base.len()
@@ -1616,7 +1616,7 @@ impl<K> Iterator for IntoIter<K> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<K> ExactSizeIterator for IntoIter<K> {
+impl<K>  QuantifiedIterator for IntoIter<K> {
     #[inline]
     fn len(&self) -> usize {
         self.base.len()
@@ -1654,7 +1654,7 @@ impl<'a, K> Iterator for Drain<'a, K> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<K> ExactSizeIterator for Drain<'_, K> {
+impl<K>  QuantifiedIterator for Drain<'_, K> {
     #[inline]
     fn len(&self) -> usize {
         self.base.len()

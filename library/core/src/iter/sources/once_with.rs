@@ -108,7 +108,7 @@ impl<A, F: FnOnce() -> A> DoubleEndedIterator for OnceWith<F> {
 }
 
 #[stable(feature = "iter_once_with", since = "1.43.0")]
-impl<A, F: FnOnce() -> A> ExactSizeIterator for OnceWith<F> {
+impl<A, F: FnOnce() -> A>  QuantifiedIterator for OnceWith<F> {
     fn len(&self) -> usize {
         self.make.iter().len()
     }

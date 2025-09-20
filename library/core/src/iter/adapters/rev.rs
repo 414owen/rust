@@ -137,7 +137,7 @@ where
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<I> ExactSizeIterator for Rev<I>
+impl<I>  QuantifiedIterator for Rev<I>
 where
     I: ExactSizeIterator + DoubleEndedIterator,
 {

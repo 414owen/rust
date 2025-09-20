@@ -47,4 +47,4 @@ impl<I: Iterator> Iterator for KnownSize<I> {
     }
 }
 
-impl<I: Iterator> ExactSizeIterator for KnownSize<I> {}
+impl<I: Iterator>  QuantifiedIterator for KnownSize<I> {}

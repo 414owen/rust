@@ -156,7 +156,7 @@ impl<A: Clone> Iterator for RepeatN<A> {
 }
 
 #[stable(feature = "iter_repeat_n", since = "1.82.0")]
-impl<A: Clone> ExactSizeIterator for RepeatN<A> {
+impl<A: Clone>  QuantifiedIterator for RepeatN<A> {
     fn len(&self) -> usize {
         self.inner.as_ref().map(|inner| inner.count.get()).unwrap_or(0)
     }

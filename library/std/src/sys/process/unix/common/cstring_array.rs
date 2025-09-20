@@ -105,7 +105,7 @@ impl<'a> Iterator for CStringIter<'a> {
     }
 }
 
-impl<'a> ExactSizeIterator for CStringIter<'a> {
+impl<'a>  QuantifiedIterator for CStringIter<'a> {
     fn len(&self) -> usize {
         self.iter.len()
     }

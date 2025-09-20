@@ -205,7 +205,7 @@ impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for Iter<'_, T> {
+impl<T>  QuantifiedIterator for Iter<'_, T> {
     fn len(&self) -> usize {
         self.i1.len() + self.i2.len()
     }

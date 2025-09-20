@@ -62,7 +62,7 @@ impl Iterator for Args {
     }
 }
 
-impl ExactSizeIterator for Args {
+impl  QuantifiedIterator for Args {
     fn len(&self) -> usize {
         self.count
     }

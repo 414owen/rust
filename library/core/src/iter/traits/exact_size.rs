@@ -153,4 +153,4 @@ pub trait ExactSizeIterator: Iterator {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A> ExactSizeIterator for A where A: QuantifiedIterator<Quantity = Exact> {}
+impl<A>  QuantifiedIterator for A where A: QuantifiedIterator<Quantity = Exact> {}

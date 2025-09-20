@@ -202,7 +202,7 @@ impl Iterator for EscapeUnicode {
 }
 
 #[stable(feature = "exact_size_escape", since = "1.11.0")]
-impl ExactSizeIterator for EscapeUnicode {
+impl  QuantifiedIterator for EscapeUnicode {
     #[inline]
     fn len(&self) -> usize {
         self.0.len()
@@ -278,7 +278,7 @@ impl Iterator for EscapeDefault {
 }
 
 #[stable(feature = "exact_size_escape", since = "1.11.0")]
-impl ExactSizeIterator for EscapeDefault {
+impl  QuantifiedIterator for EscapeDefault {
     #[inline]
     fn len(&self) -> usize {
         self.0.len()
@@ -345,7 +345,7 @@ impl Iterator for EscapeDebug {
 }
 
 #[stable(feature = "char_escape_debug", since = "1.20.0")]
-impl ExactSizeIterator for EscapeDebug {
+impl  QuantifiedIterator for EscapeDebug {
     fn len(&self) -> usize {
         self.0.len()
     }
@@ -556,7 +556,7 @@ impl DoubleEndedIterator for CaseMappingIter {
     }
 }
 
-impl ExactSizeIterator for CaseMappingIter {
+impl  QuantifiedIterator for CaseMappingIter {
     fn len(&self) -> usize {
         self.0.len()
     }

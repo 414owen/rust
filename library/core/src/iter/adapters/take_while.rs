@@ -131,4 +131,4 @@ unsafe impl<I: InPlaceIterable, F> InPlaceIterable for TakeWhile<I, F> {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I, P> !ExactSizeIterator for TakeWhile<I, P> {}
+impl<I, P> ! QuantifiedIterator for TakeWhile<I, P> {}

@@ -57,7 +57,7 @@ impl<T> DoubleEndedIterator for Empty<T> {
 }
 
 #[stable(feature = "iter_empty", since = "1.2.0")]
-impl<T> ExactSizeIterator for Empty<T> {
+impl<T>  QuantifiedIterator for Empty<T> {
     fn len(&self) -> usize {
         0
     }

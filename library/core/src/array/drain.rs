@@ -55,7 +55,7 @@ impl<T> Iterator for Drain<'_, T> {
     }
 }
 
-impl<T> ExactSizeIterator for Drain<'_, T> {
+impl<T>  QuantifiedIterator for Drain<'_, T> {
     #[inline]
     fn len(&self) -> usize {
         self.0.len()

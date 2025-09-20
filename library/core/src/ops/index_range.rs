@@ -214,7 +214,7 @@ impl DoubleEndedIterator for IndexRange {
     }
 }
 
-impl ExactSizeIterator for IndexRange {
+impl  QuantifiedIterator for IndexRange {
     #[inline]
     fn len(&self) -> usize {
         self.len()

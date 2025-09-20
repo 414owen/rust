@@ -169,7 +169,7 @@ where
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<I> ExactSizeIterator for Fuse<I>
+impl<I>  QuantifiedIterator for Fuse<I>
 where
     I: ExactSizeIterator,
 {

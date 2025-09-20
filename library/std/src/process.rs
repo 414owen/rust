@@ -1253,7 +1253,7 @@ impl<'a> Iterator for CommandArgs<'a> {
 }
 
 #[stable(feature = "command_access", since = "1.57.0")]
-impl<'a> ExactSizeIterator for CommandArgs<'a> {
+impl<'a>  QuantifiedIterator for CommandArgs<'a> {
     fn len(&self) -> usize {
         self.inner.len()
     }
@@ -1287,7 +1287,7 @@ impl<'a> Iterator for CommandEnvs<'a> {
 }
 
 #[stable(feature = "command_access", since = "1.57.0")]
-impl<'a> ExactSizeIterator for CommandEnvs<'a> {
+impl<'a>  QuantifiedIterator for CommandEnvs<'a> {
     fn len(&self) -> usize {
         self.iter.len()
     }

@@ -269,7 +269,7 @@ impl<'a, T> DoubleEndedIterator for IterMut<'a, T> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for IterMut<'_, T> {
+impl<T>  QuantifiedIterator for IterMut<'_, T> {
     fn len(&self) -> usize {
         self.i1.len() + self.i2.len()
     }

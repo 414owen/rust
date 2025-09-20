@@ -2422,7 +2422,7 @@ impl<A> DoubleEndedIterator for Item<A> {
     }
 }
 
-impl<A> ExactSizeIterator for Item<A> {
+impl<A>  QuantifiedIterator for Item<A> {
     #[inline]
     fn len(&self) -> usize {
         self.opt.len()
@@ -2465,7 +2465,7 @@ impl<'a, A> DoubleEndedIterator for Iter<'a, A> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<A> ExactSizeIterator for Iter<'_, A> {}
+impl<A>  QuantifiedIterator for Iter<'_, A> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A> FusedIterator for Iter<'_, A> {}
@@ -2515,7 +2515,7 @@ impl<'a, A> DoubleEndedIterator for IterMut<'a, A> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<A> ExactSizeIterator for IterMut<'_, A> {}
+impl<A>  QuantifiedIterator for IterMut<'_, A> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A> FusedIterator for IterMut<'_, A> {}
@@ -2556,7 +2556,7 @@ impl<A> DoubleEndedIterator for IntoIter<A> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<A> ExactSizeIterator for IntoIter<A> {}
+impl<A>  QuantifiedIterator for IntoIter<A> {}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A> FusedIterator for IntoIter<A> {}

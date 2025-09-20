@@ -620,7 +620,7 @@ impl<'a> Iterator for CommandArgs<'a> {
     }
 }
 
-impl<'a> ExactSizeIterator for CommandArgs<'a> {
+impl<'a>  QuantifiedIterator for CommandArgs<'a> {
     fn len(&self) -> usize {
         self.iter.len()
     }

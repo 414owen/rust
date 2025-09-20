@@ -1957,7 +1957,7 @@ impl<'a, K, V> Iterator for Iter<'a, K, V> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V> ExactSizeIterator for Iter<'_, K, V> {
+impl<K, V>  QuantifiedIterator for Iter<'_, K, V> {
     #[inline]
     fn len(&self) -> usize {
         self.base.len()
@@ -1993,7 +1993,7 @@ impl<'a, K, V> Iterator for IterMut<'a, K, V> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V> ExactSizeIterator for IterMut<'_, K, V> {
+impl<K, V>  QuantifiedIterator for IterMut<'_, K, V> {
     #[inline]
     fn len(&self) -> usize {
         self.base.len()
@@ -2039,7 +2039,7 @@ impl<K, V> Iterator for IntoIter<K, V> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V> ExactSizeIterator for IntoIter<K, V> {
+impl<K, V>  QuantifiedIterator for IntoIter<K, V> {
     #[inline]
     fn len(&self) -> usize {
         self.base.len()
@@ -2081,7 +2081,7 @@ impl<'a, K, V> Iterator for Keys<'a, K, V> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V> ExactSizeIterator for Keys<'_, K, V> {
+impl<K, V>  QuantifiedIterator for Keys<'_, K, V> {
     #[inline]
     fn len(&self) -> usize {
         self.inner.len()
@@ -2116,7 +2116,7 @@ impl<'a, K, V> Iterator for Values<'a, K, V> {
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V> ExactSizeIterator for Values<'_, K, V> {
+impl<K, V>  QuantifiedIterator for Values<'_, K, V> {
     #[inline]
     fn len(&self) -> usize {
         self.inner.len()
@@ -2151,7 +2151,7 @@ impl<'a, K, V> Iterator for ValuesMut<'a, K, V> {
     }
 }
 #[stable(feature = "map_values_mut", since = "1.10.0")]
-impl<K, V> ExactSizeIterator for ValuesMut<'_, K, V> {
+impl<K, V>  QuantifiedIterator for ValuesMut<'_, K, V> {
     #[inline]
     fn len(&self) -> usize {
         self.inner.len()
@@ -2193,7 +2193,7 @@ impl<K, V> Iterator for IntoKeys<K, V> {
     }
 }
 #[stable(feature = "map_into_keys_values", since = "1.54.0")]
-impl<K, V> ExactSizeIterator for IntoKeys<K, V> {
+impl<K, V>  QuantifiedIterator for IntoKeys<K, V> {
     #[inline]
     fn len(&self) -> usize {
         self.inner.len()
@@ -2235,7 +2235,7 @@ impl<K, V> Iterator for IntoValues<K, V> {
     }
 }
 #[stable(feature = "map_into_keys_values", since = "1.54.0")]
-impl<K, V> ExactSizeIterator for IntoValues<K, V> {
+impl<K, V>  QuantifiedIterator for IntoValues<K, V> {
     #[inline]
     fn len(&self) -> usize {
         self.inner.len()
@@ -2273,7 +2273,7 @@ impl<'a, K, V> Iterator for Drain<'a, K, V> {
     }
 }
 #[stable(feature = "drain", since = "1.6.0")]
-impl<K, V> ExactSizeIterator for Drain<'_, K, V> {
+impl<K, V>  QuantifiedIterator for Drain<'_, K, V> {
     #[inline]
     fn len(&self) -> usize {
         self.base.len()

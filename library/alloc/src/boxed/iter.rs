@@ -67,7 +67,7 @@ impl<I: DoubleEndedIterator + ?Sized, A: Allocator> DoubleEndedIterator for Box<
     }
 }
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<I: ExactSizeIterator + ?Sized, A: Allocator> ExactSizeIterator for Box<I, A> {
+impl<I: ExactSizeIterator + ?Sized, A: Allocator>  QuantifiedIterator for Box<I, A> {
     fn len(&self) -> usize {
         (**self).len()
     }

@@ -246,7 +246,7 @@ impl<T, A: Allocator> DoubleEndedIterator for IntoIter<T, A> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T, A: Allocator> ExactSizeIterator for IntoIter<T, A> {
+impl<T, A: Allocator>  QuantifiedIterator for IntoIter<T, A> {
     #[inline]
     fn is_empty(&self) -> bool {
         self.inner.is_empty()

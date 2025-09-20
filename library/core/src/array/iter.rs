@@ -329,7 +329,7 @@ impl<T, const N: usize> Drop for IntoIter<T, N> {
 }
 
 #[stable(feature = "array_value_iter_impls", since = "1.40.0")]
-impl<T, const N: usize> ExactSizeIterator for IntoIter<T, N> {
+impl<T, const N: usize>  QuantifiedIterator for IntoIter<T, N> {
     #[inline]
     fn len(&self) -> usize {
         self.inner.len()

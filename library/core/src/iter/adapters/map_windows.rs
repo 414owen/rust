@@ -264,7 +264,7 @@ where
 }
 
 #[unstable(feature = "iter_map_windows", reason = "recently added", issue = "87155")]
-impl<I, F, R, const N: usize> ExactSizeIterator for MapWindows<I, F, N>
+impl<I, F, R, const N: usize>  QuantifiedIterator for MapWindows<I, F, N>
 where
     I: ExactSizeIterator,
     F: FnMut(&[I::Item; N]) -> R,

@@ -87,8 +87,8 @@ impl<T> DoubleEndedIterator for Once<T> {
     }
 }
 
-#[stable(feature = "iter_once", since = "1.2.0")]
-impl<T> ExactSizeIterator for Once<T> {
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for Once<T> {
     fn len(&self) -> usize {
         self.inner.len()
     }
