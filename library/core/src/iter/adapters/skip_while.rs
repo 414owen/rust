@@ -1,8 +1,6 @@
 use crate::fmt;
 use crate::iter::adapters::SourceIter;
-use crate::iter::{
-    Exact, Finite, FusedIterator, InPlaceIterable, Infinite, QuantifiedIterator, TrustedFused,
-};
+use crate::iter::{FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused};
 use crate::num::NonZero;
 use crate::ops::Try;
 
@@ -131,27 +129,22 @@ unsafe impl<I: InPlaceIterable, F> InPlaceIterable for SkipWhile<I, F> {
     const MERGE_BY: Option<NonZero<usize>> = I::MERGE_BY;
 }
 
-trait SkipWhileQuantity {
-    type Result;
-}
+mod quantify_skip_while {
+    use crate::iter::{Exact, Finite, Infinite, quantify_fn_1};
 
-impl SkipWhileQuantity for Exact {
-    type Result = Finite;
-}
-
-impl SkipWhileQuantity for Finite {
-    type Result = Finite;
-}
-
-impl SkipWhileQuantity for Infinite {
-    type Result = Infinite;
+    quantify_fn_1!(
+        SkipWhileQuantity,
+        Exact => Finite,
+        Finite => Finite,
+        Infinite => Infinite,
+    );
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<I: QuantifiedIterator, P> QuantifiedIterator for SkipWhile<I, P>
 where
     P: FnMut(&I::Item) -> bool,
-    <I as QuantifiedIterator>::Quantity: SkipWhileQuantity,
+    I::Quantity: quantify_skip_while::SkipWhileQuantity,
 {
-    type Quantity = SkipWhileQuantity<<I as QuantifiedIterator>::Quantity>;
+    type Quantity = <I::Quantity as quantify_skip_while::SkipWhileQuantity>::Result;
 }

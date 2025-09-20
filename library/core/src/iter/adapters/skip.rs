@@ -184,15 +184,10 @@ where
     }
 }
 
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: QuantifiedIterator> QuantifiedIterator for Skip<I> {
-    type Quantity = I::Quantity;
-}
-
 #[stable(feature = "double_ended_skip_iterator", since = "1.9.0")]
 impl<I> DoubleEndedIterator for Skip<I>
 where
-    I: DoubleEndedIterator + ExactSizeIterator,
+    I: DoubleEndedIterator + QuantifiedIterator<Quantity = Exact>,
 {
     fn next_back(&mut self) -> Option<Self::Item> {
         if self.len() > 0 { self.iter.next_back() } else { None }

@@ -2,7 +2,7 @@ use super::{
     FusedIterator, TrustedLen, TrustedRandomAccess, TrustedRandomAccessNoCoerce, TrustedStep,
 };
 use crate::ascii::Char as AsciiChar;
-use crate::iter::{Infinite, QuantifiedIterator};
+use crate::iter::{Exact, Infinite, QuantifiedIterator};
 use crate::mem;
 use crate::net::{Ipv4Addr, Ipv6Addr};
 use crate::num::NonZero;
@@ -638,7 +638,9 @@ impl Step for Ipv6Addr {
 macro_rules! range_exact_iter_impl {
     ($($t:ty)*) => ($(
         #[stable(feature = "rust1", since = "1.0.0")]
-        impl ExactSizeIterator for ops::Range<$t> { }
+        impl QuantifiedIterator for ops::Range<$t> {
+            type Quantity = Exact;
+        }
     )*)
 }
 
@@ -661,7 +663,9 @@ macro_rules! unsafe_range_trusted_random_access_impl {
 macro_rules! range_incl_exact_iter_impl {
     ($($t:ty)*) => ($(
         #[stable(feature = "inclusive_range", since = "1.26.0")]
-        impl ExactSizeIterator for ops::RangeInclusive<$t> { }
+        impl QuantifiedIterator for ops::RangeInclusive<$t> {
+            type Quantity = Exact;
+        }
     )*)
 }
 

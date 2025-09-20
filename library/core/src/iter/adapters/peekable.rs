@@ -167,9 +167,6 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<I: ExactSizeIterator> ExactSizeIterator for Peekable<I> {}
-
 #[stable(feature = "fused", since = "1.26.0")]
 impl<I: FusedIterator> FusedIterator for Peekable<I> {}
 

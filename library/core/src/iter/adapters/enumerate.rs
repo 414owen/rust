@@ -246,20 +246,6 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<I> ExactSizeIterator for Enumerate<I>
-where
-    I: ExactSizeIterator,
-{
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
-}
-
 #[doc(hidden)]
 #[unstable(feature = "trusted_random_access", issue = "none")]
 unsafe impl<I> TrustedRandomAccess for Enumerate<I> where I: TrustedRandomAccess {}

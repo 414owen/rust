@@ -6,7 +6,8 @@ mod macros;
 use super::{from_raw_parts, from_raw_parts_mut};
 use crate::hint::assert_unchecked;
 use crate::iter::{
-    FusedIterator, TrustedLen, TrustedRandomAccess, TrustedRandomAccessNoCoerce, UncheckedIterator,
+    Exact, FusedIterator, QuantifiedIterator, TrustedLen, TrustedRandomAccess,
+    TrustedRandomAccessNoCoerce, UncheckedIterator,
 };
 use crate::marker::PhantomData;
 use crate::mem::{self, SizedTypeProperties};
@@ -1440,7 +1441,9 @@ impl<'a, T> DoubleEndedIterator for Windows<'a, T> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for Windows<'_, T> {}
+impl<T> QuantifiedIterator for Windows<'_, T> {
+    type Quantity = Exact;
+}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
 unsafe impl<T> TrustedLen for Windows<'_, T> {}
@@ -1625,7 +1628,9 @@ impl<'a, T> DoubleEndedIterator for Chunks<'a, T> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for Chunks<'_, T> {}
+impl<T> QuantifiedIterator for Chunks<'_, T> {
+    type Quantity = Exact;
+}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
 unsafe impl<T> TrustedLen for Chunks<'_, T> {}
@@ -1806,7 +1811,9 @@ impl<'a, T> DoubleEndedIterator for ChunksMut<'a, T> {
 }
 
 #[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for ChunksMut<'_, T> {}
+impl<T> QuantifiedIterator for ChunksMut<'_, T> {
+    type Quantity = Exact;
+}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
 unsafe impl<T> TrustedLen for ChunksMut<'_, T> {}

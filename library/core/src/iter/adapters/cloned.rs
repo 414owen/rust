@@ -100,21 +100,6 @@ where
     }
 }
 
-#[stable(feature = "iter_cloned", since = "1.1.0")]
-impl<'a, I, T: 'a> ExactSizeIterator for Cloned<I>
-where
-    I: ExactSizeIterator<Item = &'a T>,
-    T: Clone,
-{
-    fn len(&self) -> usize {
-        self.it.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.it.is_empty()
-    }
-}
-
 #[stable(feature = "fused", since = "1.26.0")]
 impl<'a, I, T: 'a> FusedIterator for Cloned<I>
 where

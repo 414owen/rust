@@ -135,21 +135,6 @@ where
 }
 
 #[stable(feature = "iter_copied", since = "1.36.0")]
-impl<'a, I, T: 'a> ExactSizeIterator for Copied<I>
-where
-    I: ExactSizeIterator<Item = &'a T>,
-    T: Copy,
-{
-    fn len(&self) -> usize {
-        self.it.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.it.is_empty()
-    }
-}
-
-#[stable(feature = "iter_copied", since = "1.36.0")]
 impl<'a, I, T: 'a> FusedIterator for Copied<I>
 where
     I: FusedIterator<Item = &'a T>,

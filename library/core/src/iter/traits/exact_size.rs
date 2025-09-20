@@ -154,13 +154,3 @@ pub trait ExactSizeIterator: Iterator {
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<A> ExactSizeIterator for A where A: QuantifiedIterator<Quantity = Exact> {}
-
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<I: ExactSizeIterator + ?Sized> ExactSizeIterator for &mut I {
-    fn len(&self) -> usize {
-        (**self).len()
-    }
-    fn is_empty(&self) -> bool {
-        (**self).is_empty()
-    }
-}

@@ -1,8 +1,8 @@
 use crate::cmp;
 use crate::fmt::{self, Debug};
-use crate::iter::traits::QuantifiedIterator;
 use crate::iter::{
-    FusedIterator, InPlaceIterable, SourceIter, TrustedFused, TrustedLen, UncheckedIterator,
+    FusedIterator, InPlaceIterable, QuantifiedIterator, SourceIter, TrustedFused, TrustedLen,
+    UncheckedIterator,
 };
 use crate::num::NonZero;
 
@@ -406,28 +406,31 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A, B> ExactSizeIterator for Zip<A, B>
-where
-    A: ExactSizeIterator,
-    B: ExactSizeIterator,
-{
+mod zip_quantify {
+    use crate::iter::{Exact, Finite, Infinite, quantify_fn_2};
+
+    quantify_fn_2!(
+        ZipQuantity,
+        Exact, Exact => Exact,
+        Exact, Infinite => Exact,
+        Infinite, Exact => Exact,
+        Exact, Finite => Finite,
+        Finite, Exact => Finite,
+        Finite, Finite => Finite,
+        Finite, Infinite => Finite,
+        Infinite, Finite => Finite,
+        Infinite, Infinite => Infinite,
+    );
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A, B> ExactSizeIterator for Zip<A, B>
-where
-    A: ExactSizeIterator,
-    B: QuantifiedIterator,
-{
-}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A, B> ExactSizeIterator for Zip<A, B>
+impl<A, B> QuantifiedIterator for Zip<A, B>
 where
     A: QuantifiedIterator,
-    B: ExactSizeIterator,
+    B: QuantifiedIterator,
+    (A::Quantity, B::Quantity): zip_quantify::ZipQuantity,
 {
+    type Quantity = <(A::Quantity, B::Quantity) as zip_quantify::ZipQuantity>::Result;
 }
 
 #[doc(hidden)]

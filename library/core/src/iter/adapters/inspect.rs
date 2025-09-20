@@ -133,20 +133,6 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<I: ExactSizeIterator, F> ExactSizeIterator for Inspect<I, F>
-where
-    F: FnMut(&I::Item),
-{
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
-}
-
 #[stable(feature = "fused", since = "1.26.0")]
 impl<I: FusedIterator, F> FusedIterator for Inspect<I, F> where F: FnMut(&I::Item) {}
 

@@ -1,7 +1,7 @@
 use crate::iter::adapters::SourceIter;
 use crate::iter::{
-    Cloned, Copied, Empty, Exact, Filter, FilterMap, Finite, Fuse, FusedIterator, Infinite, Map,
-    Once, OnceWith, QuantifiedIterator, TrustedFused, TrustedLen,
+    Cloned, Copied, Empty, Filter, FilterMap, Fuse, FusedIterator, Map, Once, OnceWith,
+    QuantifiedIterator, TrustedFused, TrustedLen,
 };
 use crate::num::NonZero;
 use crate::ops::{ControlFlow, Try};
@@ -172,34 +172,24 @@ where
     }
 }
 
-// (Outer, Inner) -> Flattened
-trait FlattenQuantity {
-    type Result;
-}
+mod quantify_flatten {
+    use crate::iter::{Exact, Finite, Infinite, quantify_fn_2};
 
-// Cases (Exact, Infinite), and (Finite, Infinite)
-// will either yield no element or infinite elements
-// which we can't currently characterize with a
-// `Quantity`.
+    // Cases (Exact, Infinite), and (Finite, Infinite)
+    // will either yield no element or infinite elements
+    // which we can't currently characterize with a
+    // `Quantity`.
 
-impl FlattenQuantity for (Exact, Exact) {
-    type Result = Finite;
-}
-
-impl FlattenQuantity for (Exact, Finite) {
-    type Result = Finite;
-}
-
-impl FlattenQuantity for (Finite, Exact) {
-    type Result = Finite;
-}
-
-impl FlattenQuantity for (Finite, Finite) {
-    type Result = Finite;
-}
-
-impl<A> FlattenQuantity for (Infinite, A) {
-    type Result = Infinite;
+    quantify_fn_2!(
+        FlattenQuantity,
+        Exact, Exact => Finite,
+        Exact, Finite => Finite,
+        Finite, Exact => Finite,
+        Finite, Finite => Finite,
+        Infinite, Exact => Infinite,
+        Infinite, Finite => Infinite,
+        Infinite, Infinite => Infinite,
+    );
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
@@ -208,16 +198,13 @@ where
     I: QuantifiedIterator,
     U: IntoIterator,
     F: FnMut(I::Item) -> U,
-    (
-        <I as QuantifiedIterator>::Quantity,
-        <<U as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
-    ): FlattenQuantity,
+    (I::Quantity, <U::IntoIter as QuantifiedIterator>::Quantity): quantify_flatten::FlattenQuantity,
     U::IntoIter: QuantifiedIterator,
 {
     type Quantity = <(
-        <I as QuantifiedIterator>::Quantity,
-        <<U as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
-    ) as FlattenQuantity>::Result;
+        I ::Quantity,
+        <U::IntoIter as QuantifiedIterator>::Quantity,
+    ) as quantify_flatten::FlattenQuantity>::Result;
 }
 
 /// An iterator that flattens one level of nesting in an iterator of things
@@ -401,15 +388,14 @@ where
 impl<I> QuantifiedIterator for Flatten<I>
 where
     I: QuantifiedIterator<Item: IntoIterator>,
-    (
-        <I as QuantifiedIterator>::Quantity,
-        <<<I as Iterator>::Item as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
-    ): FlattenQuantity,
+    <I::Item as IntoIterator>::IntoIter: QuantifiedIterator,
+    (I::Quantity, <<I::Item as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity):
+        quantify_flatten::FlattenQuantity,
 {
     type Quantity = <(
-        <I as QuantifiedIterator>::Quantity,
-        <<<I as Iterator>::Item as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
-    ) as FlattenQuantity>::Result;
+        I::Quantity,
+        <<I::Item as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
+    ) as quantify_flatten::FlattenQuantity>::Result;
 }
 
 /// Real logic of both `Flatten` and `FlatMap` which simply delegate to
@@ -780,16 +766,10 @@ impl<I, U> QuantifiedIterator for FlattenCompat<I, U>
 where
     I: QuantifiedIterator<Item: IntoIterator<IntoIter = U, Item = U::Item>>,
     U: Iterator,
-    (
-        <I as QuantifiedIterator>::Quantity,
-        <<U as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
-    ): FlattenQuantity,
-    U::IntoIter: QuantifiedIterator,
+    (I::Quantity, U::Quantity): quantify_flatten::FlattenQuantity,
+    U: QuantifiedIterator,
 {
-    type Quantity = <(
-        <I as QuantifiedIterator>::Quantity,
-        <<U as IntoIterator>::IntoIter as QuantifiedIterator>::Quantity,
-    ) as FlattenQuantity>::Result;
+    type Quantity = <(I::Quantity, U::Quantity) as quantify_flatten::FlattenQuantity>::Result;
 }
 
 trait ConstSizeIntoIterator: IntoIterator {

@@ -167,20 +167,6 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<B, I: ExactSizeIterator, F> ExactSizeIterator for Map<I, F>
-where
-    F: FnMut(I::Item) -> B,
-{
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
-}
-
 #[stable(feature = "fused", since = "1.26.0")]
 impl<B, I: FusedIterator, F> FusedIterator for Map<I, F> where F: FnMut(I::Item) -> B {}
 
@@ -246,5 +232,5 @@ impl<B, I: QuantifiedIterator, F> QuantifiedIterator for Map<I, F>
 where
     F: FnMut(I::Item) -> B,
 {
-    type Quantity = <I as QuantifiedIterator>::Quantity;
+    type Quantity = I::Quantity;
 }

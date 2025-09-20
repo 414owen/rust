@@ -136,16 +136,8 @@ macro_rules! iterator {
         }
 
         #[stable(feature = "rust1", since = "1.0.0")]
-        impl<T> ExactSizeIterator for $name<'_, T> {
-            #[inline(always)]
-            fn len(&self) -> usize {
-                len!(self)
-            }
-
-            #[inline(always)]
-            fn is_empty(&self) -> bool {
-                is_empty!(self)
-            }
+        impl<T> QuantifiedIterator for $name<'_, T> {
+            type Quantity = Exact;
         }
 
         #[stable(feature = "rust1", since = "1.0.0")]

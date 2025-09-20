@@ -1987,8 +1987,10 @@ impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for Iter<'_, T> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for Iter<T> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T> FusedIterator for Iter<'_, T> {}
@@ -2036,8 +2038,10 @@ impl<'a, T> DoubleEndedIterator for IterMut<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for IterMut<'_, T> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for IterMut<'_, T> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T> FusedIterator for IterMut<'_, T> {}
@@ -2082,8 +2086,10 @@ impl<T> DoubleEndedIterator for IntoIter<T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T> ExactSizeIterator for IntoIter<T> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for IntoIter<T> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T> FusedIterator for IntoIter<T> {}

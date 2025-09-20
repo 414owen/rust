@@ -1,5 +1,5 @@
 use crate::iter::{
-    FusedIterator, Infinite, QuantifiedIterator, Step, TrustedLen, TrustedRandomAccess,
+    Exact, FusedIterator, Infinite, QuantifiedIterator, Step, TrustedLen, TrustedRandomAccess,
     TrustedRandomAccessNoCoerce, TrustedStep,
 };
 use crate::num::NonZero;
@@ -270,14 +270,18 @@ impl<A: Step> IntoIterator for RangeInclusive<A> {
 macro_rules! range_exact_iter_impl {
     ($($t:ty)*) => ($(
         #[unstable(feature = "new_range_api", issue = "125687")]
-        impl ExactSizeIterator for IterRange<$t> { }
+        impl QuantifiedIterator for IterRange<$t> {
+            type Quantity = Exact;
+        }
     )*)
 }
 
 macro_rules! range_incl_exact_iter_impl {
     ($($t:ty)*) => ($(
         #[unstable(feature = "new_range_api", issue = "125687")]
-        impl ExactSizeIterator for IterRangeInclusive<$t> { }
+        impl QuantifiedIterator for IterRangeInclusive<$t> {
+            type Quantity = Exact;
+        }
     )*)
 }
 
@@ -338,9 +342,6 @@ impl<A: Step> IntoIterator for RangeFrom<A> {
         IterRangeFrom(self.into())
     }
 }
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A> !ExactSizeIterator for IterRangeFrom<A> {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<A: Step> QuantifiedIterator for IterRangeFrom<A> {

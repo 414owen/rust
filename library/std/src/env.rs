@@ -888,17 +888,9 @@ impl Iterator for Args {
     // arguments for now, though this is not explicitly promised by the API.
 }
 
-#[stable(feature = "env", since = "1.0.0")]
-impl ExactSizeIterator for Args {
-    #[inline]
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
-
-    #[inline]
-    fn is_empty(&self) -> bool {
-        self.inner.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<A: Step> QuantifiedIterator for Args<A> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "env_iterators", since = "1.12.0")]
@@ -976,17 +968,9 @@ impl Iterator for ArgsOs {
     }
 }
 
-#[stable(feature = "env", since = "1.0.0")]
-impl ExactSizeIterator for ArgsOs {
-    #[inline]
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
-
-    #[inline]
-    fn is_empty(&self) -> bool {
-        self.inner.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<A: Step> QuantifiedIterator for ArgsOs<A> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "env_iterators", since = "1.12.0")]

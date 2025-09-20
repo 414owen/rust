@@ -215,13 +215,23 @@ unsafe impl<I: InPlaceIterable, P> InPlaceIterable for Filter<I, P> {
     const MERGE_BY: Option<NonZero<usize>> = I::MERGE_BY;
 }
 
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I, P> !ExactSizeIterator for Filter<I, P> {}
+mod quantify_filter {
+    use crate::iter::{Exact, Finite, Infinite, quantify_fn_1};
+
+    quantify_fn_1!(
+        FilterQuantity,
+        Finite => Finite,
+        Infinite => Infinite,
+        Exact => Finite,
+    );
+}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<I, P> QuantifiedIterator for Filter<I, P>
 where
     I: QuantifiedIterator,
     P: FnMut(&I::Item) -> bool,
+    I::Quantity: quantify_filter::FilterQuantity,
 {
+    type Quantity = <I::Quantity as quantify_filter::FilterQuantity>::Result;
 }
