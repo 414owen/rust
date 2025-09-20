@@ -1,4 +1,5 @@
 use crate::iter::{TrustedLen, UncheckedIterator};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::mem::ManuallyDrop;
 use crate::ptr::drop_in_place;
 use crate::slice;
@@ -55,11 +56,8 @@ impl<T> Iterator for Drain<'_, T> {
     }
 }
 
-impl<T>  QuantifiedIterator for Drain<'_, T> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.0.len()
-    }
+impl<T> QuantifiedIterator for Drain<'_, T> {
+    type Quantity = Exact;
 }
 
 // SAFETY: This is a 1:1 wrapper for a slice iterator, which is also `TrustedLen`.

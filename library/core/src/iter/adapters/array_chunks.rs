@@ -1,7 +1,7 @@
 use crate::array;
 use crate::iter::adapters::SourceIter;
 use crate::iter::{
-    ByRefSized, FusedIterator, InPlaceIterable, TrustedFused, TrustedRandomAccessNoCoerce,
+    ByRefSized, Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused, TrustedRandomAccessNoCoerce,
 };
 use crate::num::NonZero;
 use crate::ops::{ControlFlow, NeverShortCircuit, Try};
@@ -179,20 +179,12 @@ impl<I, const N: usize> FusedIterator for ArrayChunks<I, N> where I: FusedIterat
 #[unstable(issue = "none", feature = "trusted_fused")]
 unsafe impl<I, const N: usize> TrustedFused for ArrayChunks<I, N> where I: TrustedFused + Iterator {}
 
-#[unstable(feature = "iter_array_chunks", reason = "recently added", issue = "100450")]
-impl<I, const N: usize>  QuantifiedIterator for ArrayChunks<I, N>
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I, const N: usize> QuantifiedIterator for ArrayChunks<I, N>
 where
-    I: ExactSizeIterator,
+    I: QuantifiedIterator<Quantity = Exact>,
 {
-    #[inline]
-    fn len(&self) -> usize {
-        self.iter.len() / N
-    }
-
-    #[inline]
-    fn is_empty(&self) -> bool {
-        self.iter.len() < N
-    }
+    type Quantity = Exact;
 }
 
 trait SpecFold: Iterator {

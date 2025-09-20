@@ -1,5 +1,5 @@
 use crate::fmt;
-use crate::iter::{FusedIterator, TrustedLen};
+use crate::iter::{Exact, FusedIterator, QuantifiedIterator, TrustedLen};
 
 /// Creates an iterator that lazily generates a value exactly once by invoking
 /// the provided closure.
@@ -107,11 +107,9 @@ impl<A, F: FnOnce() -> A> DoubleEndedIterator for OnceWith<F> {
     }
 }
 
-#[stable(feature = "iter_once_with", since = "1.43.0")]
-impl<A, F: FnOnce() -> A>  QuantifiedIterator for OnceWith<F> {
-    fn len(&self) -> usize {
-        self.make.iter().len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<A, F: FnOnce() -> A> QuantifiedIterator for OnceWith<F> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "iter_once_with", since = "1.43.0")]

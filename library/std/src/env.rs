@@ -12,6 +12,7 @@
 
 use crate::error::Error;
 use crate::ffi::{OsStr, OsString};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::num::NonZero;
 use crate::ops::Try;
 use crate::path::{Path, PathBuf};
@@ -889,7 +890,7 @@ impl Iterator for Args {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A: Step> QuantifiedIterator for Args<A> {
+impl QuantifiedIterator for Args {
     type Quantity = Exact;
 }
 
@@ -969,7 +970,7 @@ impl Iterator for ArgsOs {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A: Step> QuantifiedIterator for ArgsOs<A> {
+impl QuantifiedIterator for ArgsOs {
     type Quantity = Exact;
 }
 

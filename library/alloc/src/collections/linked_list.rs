@@ -14,7 +14,7 @@
 
 use core::cmp::Ordering;
 use core::hash::{Hash, Hasher};
-use core::iter::FusedIterator;
+use core::iter::{Exact, FusedIterator, QuantifiedIterator};
 use core::marker::PhantomData;
 use core::ptr::NonNull;
 use core::{fmt, mem};
@@ -1243,8 +1243,10 @@ impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T>  QuantifiedIterator for Iter<'_, T> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for Iter<'_, T> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T> FusedIterator for Iter<'_, T> {}
@@ -1311,8 +1313,10 @@ impl<'a, T> DoubleEndedIterator for IterMut<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T>  QuantifiedIterator for IterMut<'_, T> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for IterMut<'_, T> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T> FusedIterator for IterMut<'_, T> {}
@@ -2021,8 +2025,10 @@ impl<T, A: Allocator> DoubleEndedIterator for IntoIter<T, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T, A: Allocator>  QuantifiedIterator for IntoIter<T, A> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T, A: Allocator> QuantifiedIterator for IntoIter<T, A> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<T, A: Allocator> FusedIterator for IntoIter<T, A> {}

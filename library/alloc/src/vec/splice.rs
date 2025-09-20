@@ -1,4 +1,5 @@
 use core::ptr::{self};
+use core::iter::{Exact, QuantifiedIterator};
 use core::slice::{self};
 
 use super::{Drain, Vec};
@@ -47,8 +48,10 @@ impl<I: Iterator, A: Allocator> DoubleEndedIterator for Splice<'_, I, A> {
     }
 }
 
-#[stable(feature = "vec_splice", since = "1.21.0")]
-impl<I: Iterator, A: Allocator>  QuantifiedIterator for Splice<'_, I, A> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I: QuantifiedIterator<Quantity = Exact>, A: Allocator> QuantifiedIterator for Splice<'_, I, A> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "vec_splice", since = "1.21.0")]
 impl<I: Iterator, A: Allocator> Drop for Splice<'_, I, A> {

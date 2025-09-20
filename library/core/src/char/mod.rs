@@ -20,6 +20,8 @@
 #![allow(non_snake_case)]
 #![stable(feature = "rust1", since = "1.0.0")]
 
+use crate::iter::{Exact, QuantifiedIterator};
+
 mod convert;
 mod decode;
 mod methods;
@@ -201,12 +203,9 @@ impl Iterator for EscapeUnicode {
     }
 }
 
-#[stable(feature = "exact_size_escape", since = "1.11.0")]
-impl  QuantifiedIterator for EscapeUnicode {
-    #[inline]
-    fn len(&self) -> usize {
-        self.0.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl QuantifiedIterator for EscapeUnicode {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]
@@ -277,12 +276,9 @@ impl Iterator for EscapeDefault {
     }
 }
 
-#[stable(feature = "exact_size_escape", since = "1.11.0")]
-impl  QuantifiedIterator for EscapeDefault {
-    #[inline]
-    fn len(&self) -> usize {
-        self.0.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl QuantifiedIterator for EscapeDefault {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]
@@ -344,11 +340,9 @@ impl Iterator for EscapeDebug {
     }
 }
 
-#[stable(feature = "char_escape_debug", since = "1.20.0")]
-impl  QuantifiedIterator for EscapeDebug {
-    fn len(&self) -> usize {
-        self.0.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl QuantifiedIterator for EscapeDebug {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]
@@ -556,14 +550,9 @@ impl DoubleEndedIterator for CaseMappingIter {
     }
 }
 
-impl  QuantifiedIterator for CaseMappingIter {
-    fn len(&self) -> usize {
-        self.0.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.0.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl QuantifiedIterator for CaseMappingIter {
+    type Quantity = Exact;
 }
 
 impl FusedIterator for CaseMappingIter {}

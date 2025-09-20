@@ -1,5 +1,6 @@
 use crate::collections::BTreeMap;
 use crate::ffi::{OsStr, OsString};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::sys::process::EnvKey;
 use crate::{env, fmt};
 
@@ -105,11 +106,6 @@ impl<'a> Iterator for CommandEnvs<'a> {
     }
 }
 
-impl<'a>  QuantifiedIterator for CommandEnvs<'a> {
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+impl<'a> QuantifiedIterator for CommandEnvs<'a> {
+    type Quantity = Exact;
 }

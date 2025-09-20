@@ -1,5 +1,5 @@
 use core::async_iter::AsyncIterator;
-use core::iter::FusedIterator;
+use core::iter::{Exact, FusedIterator, QuantifiedIterator};
 use core::pin::Pin;
 use core::slice;
 use core::task::{Context, Poll};
@@ -66,14 +66,9 @@ impl<I: DoubleEndedIterator + ?Sized, A: Allocator> DoubleEndedIterator for Box<
         (**self).nth_back(n)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<I: ExactSizeIterator + ?Sized, A: Allocator>  QuantifiedIterator for Box<I, A> {
-    fn len(&self) -> usize {
-        (**self).len()
-    }
-    fn is_empty(&self) -> bool {
-        (**self).is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I: QuantifiedIterator<Quantity = Exact> + ?Sized, A: Allocator> QuantifiedIterator for Box<I, A> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]

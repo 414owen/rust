@@ -3,7 +3,7 @@ use core::cmp::Ordering::{self, Equal, Greater, Less};
 use core::cmp::{max, min};
 use core::fmt::{self, Debug};
 use core::hash::{Hash, Hasher};
-use core::iter::{FusedIterator, Peekable};
+use core::iter::{Exact, FusedIterator, Peekable, QuantifiedIterator};
 use core::mem::ManuallyDrop;
 use core::ops::{BitAnd, BitOr, BitXor, Bound, RangeBounds, Sub};
 
@@ -1218,7 +1218,7 @@ impl<T, A: Allocator + Clone> BTreeSet<T, A> {
     /// assert_eq!(low.into_iter().collect::<Vec<_>>(), [0, 1, 2, 3]);
     /// assert_eq!(high.into_iter().collect::<Vec<_>>(), [4, 5, 6, 7]);
     /// ```
-    #[stable(feature = "btree_extract_if", since = "CURRENT_RUSTC_VERSION")]
+    #[stable(feature = "btree_extract_if", since = "1.92.0")]
     pub fn extract_if<F, R>(&mut self, range: R, pred: F) -> ExtractIf<'_, T, R, F, A>
     where
         T: Ord,
@@ -1553,7 +1553,7 @@ impl<'a, T, A: Allocator + Clone> IntoIterator for &'a BTreeSet<T, A> {
 }
 
 /// An iterator produced by calling `extract_if` on BTreeSet.
-#[stable(feature = "btree_extract_if", since = "CURRENT_RUSTC_VERSION")]
+#[stable(feature = "btree_extract_if", since = "1.92.0")]
 #[must_use = "iterators are lazy and do nothing unless consumed"]
 pub struct ExtractIf<
     'a,
@@ -1568,7 +1568,7 @@ pub struct ExtractIf<
     alloc: A,
 }
 
-#[stable(feature = "btree_extract_if", since = "CURRENT_RUSTC_VERSION")]
+#[stable(feature = "btree_extract_if", since = "1.92.0")]
 impl<T, R, F, A> fmt::Debug for ExtractIf<'_, T, R, F, A>
 where
     T: fmt::Debug,
@@ -1581,7 +1581,7 @@ where
     }
 }
 
-#[stable(feature = "btree_extract_if", since = "CURRENT_RUSTC_VERSION")]
+#[stable(feature = "btree_extract_if", since = "1.92.0")]
 impl<T, R, F, A: Allocator + Clone> Iterator for ExtractIf<'_, T, R, F, A>
 where
     T: PartialOrd,
@@ -1601,7 +1601,7 @@ where
     }
 }
 
-#[stable(feature = "btree_extract_if", since = "CURRENT_RUSTC_VERSION")]
+#[stable(feature = "btree_extract_if", since = "1.92.0")]
 impl<T, R, F, A: Allocator + Clone> FusedIterator for ExtractIf<'_, T, R, F, A>
 where
     T: PartialOrd,
@@ -1794,11 +1794,9 @@ impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
         self.iter.next_back()
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T>  QuantifiedIterator for Iter<'_, T> {
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for Iter<'_, T> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]
@@ -1837,11 +1835,9 @@ impl<T, A: Allocator + Clone> DoubleEndedIterator for IntoIter<T, A> {
         self.iter.next_back().map(|(k, _)| k)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T, A: Allocator + Clone>  QuantifiedIterator for IntoIter<T, A> {
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T, A: Allocator + Clone> QuantifiedIterator for IntoIter<T, A> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]

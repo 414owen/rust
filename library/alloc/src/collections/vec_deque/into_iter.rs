@@ -1,4 +1,5 @@
 use core::iter::{FusedIterator, TrustedLen};
+use core::iter::{Exact, QuantifiedIterator};
 use core::mem::MaybeUninit;
 use core::num::NonZero;
 use core::ops::Try;
@@ -245,12 +246,9 @@ impl<T, A: Allocator> DoubleEndedIterator for IntoIter<T, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T, A: Allocator>  QuantifiedIterator for IntoIter<T, A> {
-    #[inline]
-    fn is_empty(&self) -> bool {
-        self.inner.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T, A: Allocator> QuantifiedIterator for IntoIter<T, A> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]

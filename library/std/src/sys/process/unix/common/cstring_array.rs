@@ -1,4 +1,5 @@
 use crate::ffi::{CStr, CString, c_char};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::ops::Index;
 use crate::{fmt, mem, ptr};
 
@@ -105,11 +106,7 @@ impl<'a> Iterator for CStringIter<'a> {
     }
 }
 
-impl<'a>  QuantifiedIterator for CStringIter<'a> {
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<'a> QuantifiedIterator for CStringIter<'a> {
+    type Quantity = Exact;
 }

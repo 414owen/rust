@@ -576,7 +576,7 @@
 
 #![stable(feature = "rust1", since = "1.0.0")]
 
-use crate::iter::{self, FusedIterator, TrustedLen};
+use crate::iter::{self, Exact, FusedIterator, QuantifiedIterator, TrustedLen};
 use crate::marker::Destruct;
 use crate::ops::{self, ControlFlow, Deref, DerefMut};
 use crate::panicking::{panic, panic_display};
@@ -2422,11 +2422,9 @@ impl<A> DoubleEndedIterator for Item<A> {
     }
 }
 
-impl<A>  QuantifiedIterator for Item<A> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.opt.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<A> QuantifiedIterator for Item<A> {
+    type Quantity = Exact;
 }
 impl<A> FusedIterator for Item<A> {}
 unsafe impl<A> TrustedLen for Item<A> {}
@@ -2464,8 +2462,10 @@ impl<'a, A> DoubleEndedIterator for Iter<'a, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A>  QuantifiedIterator for Iter<'_, A> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<A> QuantifiedIterator for Iter<'_, A> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A> FusedIterator for Iter<'_, A> {}
@@ -2514,8 +2514,10 @@ impl<'a, A> DoubleEndedIterator for IterMut<'a, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A>  QuantifiedIterator for IterMut<'_, A> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<A> QuantifiedIterator for IterMut<'_, A> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A> FusedIterator for IterMut<'_, A> {}
@@ -2555,8 +2557,10 @@ impl<A> DoubleEndedIterator for IntoIter<A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<A>  QuantifiedIterator for IntoIter<A> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<A> QuantifiedIterator for IntoIter<A> {
+    type Quantity = Exact;
+}
 
 #[stable(feature = "fused", since = "1.26.0")]
 impl<A> FusedIterator for IntoIter<A> {}

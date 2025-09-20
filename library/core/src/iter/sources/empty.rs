@@ -1,4 +1,5 @@
 use crate::iter::{FusedIterator, TrustedLen};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::{fmt, marker};
 
 /// Creates an iterator that yields nothing.
@@ -56,11 +57,9 @@ impl<T> DoubleEndedIterator for Empty<T> {
     }
 }
 
-#[stable(feature = "iter_empty", since = "1.2.0")]
-impl<T>  QuantifiedIterator for Empty<T> {
-    fn len(&self) -> usize {
-        0
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for Empty<T> {
+    type Quantity = Exact;
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]

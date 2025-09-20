@@ -118,3 +118,8 @@ pub trait QuantifiedIterator: Iterator {
     #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
     type Quantity;
 }
+
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I: QuantifiedIterator> QuantifiedIterator for &mut I {
+    type Quantity = I::Quantity;
+}

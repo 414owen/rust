@@ -8,7 +8,7 @@ use crate::borrow::Borrow;
 use crate::collections::TryReserveError;
 use crate::fmt;
 use crate::hash::{BuildHasher, Hash, RandomState};
-use crate::iter::{Chain, FusedIterator};
+use crate::iter::{Chain, Exact, FusedIterator, QuantifiedIterator};
 use crate::ops::{BitAnd, BitOr, BitXor, Sub};
 
 /// A [hash set] implemented as a `HashMap` where the value is `()`.
@@ -1573,12 +1573,9 @@ impl<'a, K> Iterator for Iter<'a, K> {
         self.base.fold(init, f)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<K>  QuantifiedIterator for Iter<'_, K> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.base.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K> QuantifiedIterator for Iter<'_, K> {
+    type Quantity = Exact;
 }
 #[stable(feature = "fused", since = "1.26.0")]
 impl<K> FusedIterator for Iter<'_, K> {}
@@ -1615,12 +1612,9 @@ impl<K> Iterator for IntoIter<K> {
         self.base.fold(init, f)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<K>  QuantifiedIterator for IntoIter<K> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.base.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K> QuantifiedIterator for IntoIter<K> {
+    type Quantity = Exact;
 }
 #[stable(feature = "fused", since = "1.26.0")]
 impl<K> FusedIterator for IntoIter<K> {}
@@ -1653,12 +1647,9 @@ impl<'a, K> Iterator for Drain<'a, K> {
         self.base.fold(init, f)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<K>  QuantifiedIterator for Drain<'_, K> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.base.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K> QuantifiedIterator for Drain<'_, K> {
+    type Quantity = Exact;
 }
 #[stable(feature = "fused", since = "1.26.0")]
 impl<K> FusedIterator for Drain<'_, K> {}

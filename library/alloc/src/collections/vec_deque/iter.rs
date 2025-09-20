@@ -1,4 +1,5 @@
 use core::iter::{FusedIterator, TrustedLen, TrustedRandomAccess, TrustedRandomAccessNoCoerce};
+use core::iter::{Exact, QuantifiedIterator};
 use core::num::NonZero;
 use core::ops::Try;
 use core::{fmt, mem, slice};
@@ -204,15 +205,9 @@ impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T>  QuantifiedIterator for Iter<'_, T> {
-    fn len(&self) -> usize {
-        self.i1.len() + self.i2.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.i1.is_empty() && self.i2.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for Iter<'_, T> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]

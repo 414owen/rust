@@ -1,5 +1,5 @@
 use crate::fmt;
-use crate::iter::{FusedIterator, TrustedLen, UncheckedIterator};
+use crate::iter::{Exact, FusedIterator, QuantifiedIterator, TrustedLen, UncheckedIterator};
 use crate::num::NonZero;
 use crate::ops::Try;
 
@@ -155,11 +155,9 @@ impl<A: Clone> Iterator for RepeatN<A> {
     }
 }
 
-#[stable(feature = "iter_repeat_n", since = "1.82.0")]
-impl<A: Clone>  QuantifiedIterator for RepeatN<A> {
-    fn len(&self) -> usize {
-        self.inner.as_ref().map(|inner| inner.count.get()).unwrap_or(0)
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<A: Clone> QuantifiedIterator for RepeatN<A> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "iter_repeat_n", since = "1.82.0")]

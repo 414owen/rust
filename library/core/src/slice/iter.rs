@@ -1440,7 +1440,7 @@ impl<'a, T> DoubleEndedIterator for Windows<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<T> QuantifiedIterator for Windows<'_, T> {
     type Quantity = Exact;
 }
@@ -1627,7 +1627,7 @@ impl<'a, T> DoubleEndedIterator for Chunks<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<T> QuantifiedIterator for Chunks<'_, T> {
     type Quantity = Exact;
 }
@@ -1810,7 +1810,7 @@ impl<'a, T> DoubleEndedIterator for ChunksMut<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<T> QuantifiedIterator for ChunksMut<'_, T> {
     type Quantity = Exact;
 }
@@ -1990,11 +1990,9 @@ impl<'a, T> DoubleEndedIterator for ChunksExact<'a, T> {
     }
 }
 
-#[stable(feature = "chunks_exact", since = "1.31.0")]
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<T> QuantifiedIterator for ChunksExact<'_, T> {
-    fn is_empty(&self) -> bool {
-        self.v.is_empty()
-    }
+    type Quantity = Exact;
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
@@ -2157,11 +2155,9 @@ impl<'a, T> DoubleEndedIterator for ChunksExactMut<'a, T> {
     }
 }
 
-#[stable(feature = "chunks_exact", since = "1.31.0")]
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<T> QuantifiedIterator for ChunksExactMut<'_, T> {
-    fn is_empty(&self) -> bool {
-        self.v.is_empty()
-    }
+    type Quantity = Exact;
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
@@ -2301,11 +2297,9 @@ impl<'a, T, const N: usize> DoubleEndedIterator for ArrayWindows<'a, T, N> {
     }
 }
 
-#[unstable(feature = "array_windows", issue = "75027")]
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<T, const N: usize> QuantifiedIterator for ArrayWindows<'_, T, N> {
-    fn is_empty(&self) -> bool {
-        self.num == 0
-    }
+    type Quantity = Exact;
 }
 
 /// An iterator over a slice in (non-overlapping) chunks (`chunk_size` elements at a
@@ -2466,8 +2460,10 @@ impl<'a, T> DoubleEndedIterator for RChunks<'a, T> {
     }
 }
 
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<T> QuantifiedIterator for RChunks<'_, T> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for RChunks<'_, T> {
+    type Quantity = Exact;
+}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
 unsafe impl<T> TrustedLen for RChunks<'_, T> {}
@@ -2652,8 +2648,10 @@ impl<'a, T> DoubleEndedIterator for RChunksMut<'a, T> {
     }
 }
 
-#[stable(feature = "rchunks", since = "1.31.0")]
-impl<T> QuantifiedIterator for RChunksMut<'_, T> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for RChunksMut<'_, T> {
+    type Quantity = Exact;
+}
 
 #[unstable(feature = "trusted_len", issue = "37572")]
 unsafe impl<T> TrustedLen for RChunksMut<'_, T> {}
@@ -2834,11 +2832,9 @@ impl<'a, T> DoubleEndedIterator for RChunksExact<'a, T> {
     }
 }
 
-#[stable(feature = "rchunks", since = "1.31.0")]
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<'a, T> QuantifiedIterator for RChunksExact<'a, T> {
-    fn is_empty(&self) -> bool {
-        self.v.is_empty()
-    }
+    type Quantity = Exact;
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]
@@ -3006,11 +3002,9 @@ impl<'a, T> DoubleEndedIterator for RChunksExactMut<'a, T> {
     }
 }
 
-#[stable(feature = "rchunks", since = "1.31.0")]
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<T> QuantifiedIterator for RChunksExactMut<'_, T> {
-    fn is_empty(&self) -> bool {
-        self.v.is_empty()
-    }
+    type Quantity = Exact;
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]

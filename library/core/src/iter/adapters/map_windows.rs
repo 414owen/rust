@@ -1,4 +1,5 @@
 use crate::iter::FusedIterator;
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::mem::MaybeUninit;
 use crate::{fmt, ptr};
 
@@ -263,12 +264,13 @@ where
 {
 }
 
-#[unstable(feature = "iter_map_windows", reason = "recently added", issue = "87155")]
-impl<I, F, R, const N: usize>  QuantifiedIterator for MapWindows<I, F, N>
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I, F, R, const N: usize> QuantifiedIterator for MapWindows<I, F, N>
 where
-    I: ExactSizeIterator,
+    I: QuantifiedIterator<Quantity = Exact>,
     F: FnMut(&[I::Item; N]) -> R,
 {
+    type Quantity = Exact;
 }
 
 #[unstable(feature = "iter_map_windows", reason = "recently added", issue = "87155")]

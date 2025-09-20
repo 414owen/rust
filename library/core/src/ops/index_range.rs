@@ -1,4 +1,5 @@
 use crate::iter::{FusedIterator, TrustedLen};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::num::NonZero;
 use crate::ops::{NeverShortCircuit, Try};
 use crate::ub_checks;
@@ -214,11 +215,9 @@ impl DoubleEndedIterator for IndexRange {
     }
 }
 
-impl  QuantifiedIterator for IndexRange {
-    #[inline]
-    fn len(&self) -> usize {
-        self.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl QuantifiedIterator for IndexRange {
+    type Quantity = Exact;
 }
 
 // SAFETY: Because we only deal in `usize`, our `len` is always perfect.

@@ -8,7 +8,7 @@ use super::{
 };
 use crate::fmt::{self, Write};
 use crate::iter::{
-    Chain, Copied, Filter, FlatMap, Flatten, FusedIterator, Map, TrustedLen, TrustedRandomAccess,
+    Chain, Copied, Exact, Filter, FlatMap, Flatten, FusedIterator, Map, QuantifiedIterator, TrustedLen, TrustedRandomAccess,
     TrustedRandomAccessNoCoerce,
 };
 use crate::num::NonZero;
@@ -384,17 +384,9 @@ impl DoubleEndedIterator for Bytes<'_> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl  QuantifiedIterator for Bytes<'_> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.0.len()
-    }
-
-    #[inline]
-    fn is_empty(&self) -> bool {
-        self.0.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl QuantifiedIterator for Bytes<'_> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]

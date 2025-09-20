@@ -11,7 +11,7 @@
 
 use crate::escape::{AlwaysEscaped, EscapeIterInner};
 use crate::fmt;
-use crate::iter::FusedIterator;
+use crate::iter::{Exact, FusedIterator, QuantifiedIterator};
 use crate::num::NonZero;
 
 mod ascii_char;
@@ -151,12 +151,9 @@ impl DoubleEndedIterator for EscapeDefault {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl  QuantifiedIterator for EscapeDefault {
-    #[inline]
-    fn len(&self) -> usize {
-        self.0.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl QuantifiedIterator for EscapeDefault {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]

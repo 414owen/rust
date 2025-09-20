@@ -1988,7 +1988,7 @@ impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<T> QuantifiedIterator for Iter<T> {
+impl<T> QuantifiedIterator for Iter<'_, T> {
     type Quantity = Exact;
 }
 

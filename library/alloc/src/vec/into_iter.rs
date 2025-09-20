@@ -1,5 +1,5 @@
 use core::iter::{
-    FusedIterator, InPlaceIterable, SourceIter, TrustedFused, TrustedLen,
+    Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, SourceIter, TrustedFused, TrustedLen,
     TrustedRandomAccessNoCoerce,
 };
 use core::marker::PhantomData;
@@ -414,15 +414,9 @@ impl<T, A: Allocator> DoubleEndedIterator for IntoIter<T, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T, A: Allocator>  QuantifiedIterator for IntoIter<T, A> {
-    fn is_empty(&self) -> bool {
-        if T::IS_ZST {
-            self.ptr.as_ptr() == self.end as *mut _
-        } else {
-            self.ptr == non_null!(self.end, T)
-        }
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T, A: Allocator> QuantifiedIterator for IntoIter<T, A> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]

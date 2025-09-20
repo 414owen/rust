@@ -1,5 +1,7 @@
 use crate::iter::{FusedIterator, TrustedLen};
 
+use crate::iter::{Exact, QuantifiedIterator};
+
 /// Creates an iterator that yields an element exactly once.
 ///
 /// This is commonly used to adapt a single value into a [`chain()`] of other
@@ -89,9 +91,7 @@ impl<T> DoubleEndedIterator for Once<T> {
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<T> QuantifiedIterator for Once<T> {
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
+    type Quantity = Exact;
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]

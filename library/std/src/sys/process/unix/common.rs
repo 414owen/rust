@@ -7,6 +7,7 @@ pub use self::cstring_array::CStringArray;
 use self::cstring_array::CStringIter;
 use crate::collections::BTreeMap;
 use crate::ffi::{CStr, CString, OsStr, OsString};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::os::unix::prelude::*;
 use crate::path::Path;
 use crate::sys::fd::FileDesc;
@@ -620,14 +621,9 @@ impl<'a> Iterator for CommandArgs<'a> {
     }
 }
 
-impl<'a>  QuantifiedIterator for CommandArgs<'a> {
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<'a> QuantifiedIterator for CommandArgs<'a> {
+    type Quantity = Exact;
 }
 
 impl<'a> fmt::Debug for CommandArgs<'a> {

@@ -1,7 +1,7 @@
 //! Defines the `IntoIter` owned iterator for arrays.
 
 use crate::intrinsics::transmute_unchecked;
-use crate::iter::{FusedIterator, TrustedLen, TrustedRandomAccessNoCoerce};
+use crate::iter::{Exact, FusedIterator, QuantifiedIterator, TrustedLen, TrustedRandomAccessNoCoerce};
 use crate::mem::MaybeUninit;
 use crate::num::NonZero;
 use crate::ops::{IndexRange, Range, Try};
@@ -328,16 +328,9 @@ impl<T, const N: usize> Drop for IntoIter<T, N> {
     }
 }
 
-#[stable(feature = "array_value_iter_impls", since = "1.40.0")]
-impl<T, const N: usize>  QuantifiedIterator for IntoIter<T, N> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
-    #[inline]
-    fn is_empty(&self) -> bool {
-        self.inner.len() == 0
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T, const N: usize> QuantifiedIterator for IntoIter<T, N> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "array_value_iter_impls", since = "1.40.0")]

@@ -9,6 +9,7 @@ use crate::collections::{TryReserveError, TryReserveErrorKind};
 use crate::error::Error;
 use crate::fmt::{self, Debug};
 use crate::hash::{BuildHasher, Hash, RandomState};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::iter::FusedIterator;
 use crate::ops::Index;
 
@@ -1956,12 +1957,9 @@ impl<'a, K, V> Iterator for Iter<'a, K, V> {
         self.base.fold(init, f)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V>  QuantifiedIterator for Iter<'_, K, V> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.base.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K, V> QuantifiedIterator for Iter<'_, K, V> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]
@@ -1992,12 +1990,9 @@ impl<'a, K, V> Iterator for IterMut<'a, K, V> {
         self.base.fold(init, f)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V>  QuantifiedIterator for IterMut<'_, K, V> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.base.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K, V> QuantifiedIterator for IterMut<'_, K, V> {
+    type Quantity = Exact;
 }
 #[stable(feature = "fused", since = "1.26.0")]
 impl<K, V> FusedIterator for IterMut<'_, K, V> {}
@@ -2038,12 +2033,9 @@ impl<K, V> Iterator for IntoIter<K, V> {
         self.base.fold(init, f)
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V>  QuantifiedIterator for IntoIter<K, V> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.base.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K, V> QuantifiedIterator for IntoIter<K, V> {
+    type Quantity = Exact;
 }
 #[stable(feature = "fused", since = "1.26.0")]
 impl<K, V> FusedIterator for IntoIter<K, V> {}
@@ -2080,12 +2072,9 @@ impl<'a, K, V> Iterator for Keys<'a, K, V> {
         self.inner.fold(init, |acc, (k, _)| f(acc, k))
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V>  QuantifiedIterator for Keys<'_, K, V> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K, V> QuantifiedIterator for Keys<'_, K, V> {
+    type Quantity = Exact;
 }
 #[stable(feature = "fused", since = "1.26.0")]
 impl<K, V> FusedIterator for Keys<'_, K, V> {}
@@ -2115,12 +2104,9 @@ impl<'a, K, V> Iterator for Values<'a, K, V> {
         self.inner.fold(init, |acc, (_, v)| f(acc, v))
     }
 }
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<K, V>  QuantifiedIterator for Values<'_, K, V> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K, V> QuantifiedIterator for Values<'_, K, V> {
+    type Quantity = Exact;
 }
 #[stable(feature = "fused", since = "1.26.0")]
 impl<K, V> FusedIterator for Values<'_, K, V> {}
@@ -2150,12 +2136,9 @@ impl<'a, K, V> Iterator for ValuesMut<'a, K, V> {
         self.inner.fold(init, |acc, (_, v)| f(acc, v))
     }
 }
-#[stable(feature = "map_values_mut", since = "1.10.0")]
-impl<K, V>  QuantifiedIterator for ValuesMut<'_, K, V> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K, V> QuantifiedIterator for ValuesMut<'_, K, V> {
+    type Quantity = Exact;
 }
 #[stable(feature = "fused", since = "1.26.0")]
 impl<K, V> FusedIterator for ValuesMut<'_, K, V> {}
@@ -2192,12 +2175,9 @@ impl<K, V> Iterator for IntoKeys<K, V> {
         self.inner.fold(init, |acc, (k, _)| f(acc, k))
     }
 }
-#[stable(feature = "map_into_keys_values", since = "1.54.0")]
-impl<K, V>  QuantifiedIterator for IntoKeys<K, V> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K, V> QuantifiedIterator for IntoKeys<K, V> {
+    type Quantity = Exact;
 }
 #[stable(feature = "map_into_keys_values", since = "1.54.0")]
 impl<K, V> FusedIterator for IntoKeys<K, V> {}
@@ -2234,12 +2214,9 @@ impl<K, V> Iterator for IntoValues<K, V> {
         self.inner.fold(init, |acc, (_, v)| f(acc, v))
     }
 }
-#[stable(feature = "map_into_keys_values", since = "1.54.0")]
-impl<K, V>  QuantifiedIterator for IntoValues<K, V> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K, V> QuantifiedIterator for IntoValues<K, V> {
+    type Quantity = Exact;
 }
 #[stable(feature = "map_into_keys_values", since = "1.54.0")]
 impl<K, V> FusedIterator for IntoValues<K, V> {}
@@ -2272,12 +2249,9 @@ impl<'a, K, V> Iterator for Drain<'a, K, V> {
         self.base.fold(init, f)
     }
 }
-#[stable(feature = "drain", since = "1.6.0")]
-impl<K, V>  QuantifiedIterator for Drain<'_, K, V> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.base.len()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<K, V> QuantifiedIterator for Drain<'_, K, V> {
+    type Quantity = Exact;
 }
 #[stable(feature = "fused", since = "1.26.0")]
 impl<K, V> FusedIterator for Drain<'_, K, V> {}

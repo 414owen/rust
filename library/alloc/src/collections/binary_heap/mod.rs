@@ -144,7 +144,7 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
 use core::alloc::Allocator;
-use core::iter::{FusedIterator, InPlaceIterable, SourceIter, TrustedFused, TrustedLen};
+use core::iter::{Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, SourceIter, TrustedFused, TrustedLen};
 use core::mem::{self, ManuallyDrop, swap};
 use core::num::NonZero;
 use core::ops::{Deref, DerefMut};
@@ -1565,11 +1565,9 @@ impl<'a, T> DoubleEndedIterator for Iter<'a, T> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T>  QuantifiedIterator for Iter<'_, T> {
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T> QuantifiedIterator for Iter<'_, T> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]
@@ -1628,11 +1626,9 @@ impl<T, A: Allocator> DoubleEndedIterator for IntoIter<T, A> {
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<T, A: Allocator>  QuantifiedIterator for IntoIter<T, A> {
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T, A: Allocator> QuantifiedIterator for IntoIter<T, A> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]
@@ -1719,8 +1715,10 @@ impl<T: Ord, A: Allocator> Iterator for IntoIterSorted<T, A> {
     }
 }
 
-#[unstable(feature = "binary_heap_into_iter_sorted", issue = "59278")]
-impl<T: Ord, A: Allocator>  QuantifiedIterator for IntoIterSorted<T, A> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T: Ord, A: Allocator> QuantifiedIterator for IntoIterSorted<T, A> {
+    type Quantity = Exact;
+}
 
 #[unstable(feature = "binary_heap_into_iter_sorted", issue = "59278")]
 impl<T: Ord, A: Allocator> FusedIterator for IntoIterSorted<T, A> {}
@@ -1775,11 +1773,9 @@ impl<T, A: Allocator> DoubleEndedIterator for Drain<'_, T, A> {
     }
 }
 
-#[stable(feature = "drain", since = "1.6.0")]
-impl<T, A: Allocator>  QuantifiedIterator for Drain<'_, T, A> {
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T, A: Allocator> QuantifiedIterator for Drain<'_, T, A> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]
@@ -1845,8 +1841,10 @@ impl<T: Ord, A: Allocator> Iterator for DrainSorted<'_, T, A> {
     }
 }
 
-#[unstable(feature = "binary_heap_drain_sorted", issue = "59278")]
-impl<T: Ord, A: Allocator>  QuantifiedIterator for DrainSorted<'_, T, A> {}
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T: Ord, A: Allocator> QuantifiedIterator for DrainSorted<'_, T, A> {
+    type Quantity = Exact;
+}
 
 #[unstable(feature = "binary_heap_drain_sorted", issue = "59278")]
 impl<T: Ord, A: Allocator> FusedIterator for DrainSorted<'_, T, A> {}

@@ -1,5 +1,5 @@
 use core::fmt;
-use core::iter::{FusedIterator, TrustedLen};
+use core::iter::{Exact, FusedIterator, QuantifiedIterator, TrustedLen};
 use core::mem::{self, ManuallyDrop, SizedTypeProperties};
 use core::ptr::{self, NonNull};
 use core::slice::{self};
@@ -239,11 +239,9 @@ impl<T, A: Allocator> Drop for Drain<'_, T, A> {
     }
 }
 
-#[stable(feature = "drain", since = "1.6.0")]
-impl<T, A: Allocator>  QuantifiedIterator for Drain<'_, T, A> {
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<T, A: Allocator> QuantifiedIterator for Drain<'_, T, A> {
+    type Quantity = Exact;
 }
 
 #[unstable(feature = "trusted_len", issue = "37572")]

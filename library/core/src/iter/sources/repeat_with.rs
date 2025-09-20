@@ -123,9 +123,6 @@ impl<A, F: FnMut() -> A> FusedIterator for RepeatWith<F> {}
 unsafe impl<A, F: FnMut() -> A> TrustedLen for RepeatWith<F> {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<F> ! QuantifiedIterator for RepeatWith<F> {}
-
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<A, F: FnMut() -> A> QuantifiedIterator for RepeatWith<F> {
     type Quantity = Infinite;
 }

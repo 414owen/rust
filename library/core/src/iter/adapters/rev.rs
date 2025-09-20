@@ -1,4 +1,5 @@
 use crate::iter::{FusedIterator, TrustedLen};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::num::NonZero;
 use crate::ops::Try;
 
@@ -136,18 +137,12 @@ where
     }
 }
 
-#[stable(feature = "rust1", since = "1.0.0")]
-impl<I>  QuantifiedIterator for Rev<I>
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<I> QuantifiedIterator for Rev<I>
 where
-    I: ExactSizeIterator + DoubleEndedIterator,
+    I: QuantifiedIterator<Quantity = Exact> + DoubleEndedIterator,
 {
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+    type Quantity = Exact;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]

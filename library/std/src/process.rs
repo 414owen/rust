@@ -164,6 +164,7 @@ use crate::convert::Infallible;
 use crate::ffi::OsStr;
 use crate::io::prelude::*;
 use crate::io::{self, BorrowedCursor, IoSlice, IoSliceMut};
+use crate::iter::{Exact, QuantifiedIterator};
 use crate::num::NonZero;
 use crate::path::Path;
 use crate::sys::pipe::{AnonPipe, read2};
@@ -1252,14 +1253,9 @@ impl<'a> Iterator for CommandArgs<'a> {
     }
 }
 
-#[stable(feature = "command_access", since = "1.57.0")]
-impl<'a>  QuantifiedIterator for CommandArgs<'a> {
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
-    fn is_empty(&self) -> bool {
-        self.inner.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<'a> QuantifiedIterator for CommandArgs<'a> {
+    type Quantity = Exact;
 }
 
 /// An iterator over the command environment variables.
@@ -1286,15 +1282,9 @@ impl<'a> Iterator for CommandEnvs<'a> {
     }
 }
 
-#[stable(feature = "command_access", since = "1.57.0")]
-impl<'a>  QuantifiedIterator for CommandEnvs<'a> {
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<'a> QuantifiedIterator for CommandEnvs<'a> {
+    type Quantity = Exact;
 }
 
 #[stable(feature = "command_access", since = "1.57.0")]
