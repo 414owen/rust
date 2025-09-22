@@ -1,5 +1,4 @@
-use core::iter::{FusedIterator, TrustedLen};
-use core::iter::{Exact, QuantifiedIterator};
+use core::iter::{Exact, FusedIterator, QuantifiedIterator, TrustedLen};
 use core::mem::MaybeUninit;
 use core::num::NonZero;
 use core::ops::Try;

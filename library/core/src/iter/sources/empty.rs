@@ -1,5 +1,4 @@
-use crate::iter::{FusedIterator, TrustedLen};
-use crate::iter::{Exact, QuantifiedIterator};
+use crate::iter::{Exact, FusedIterator, QuantifiedIterator, TrustedLen};
 use crate::{fmt, marker};
 
 /// Creates an iterator that yields nothing.

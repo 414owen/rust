@@ -1,7 +1,9 @@
 //! Defines the `IntoIter` owned iterator for arrays.
 
 use crate::intrinsics::transmute_unchecked;
-use crate::iter::{Exact, FusedIterator, QuantifiedIterator, TrustedLen, TrustedRandomAccessNoCoerce};
+use crate::iter::{
+    Exact, FusedIterator, QuantifiedIterator, TrustedLen, TrustedRandomAccessNoCoerce,
+};
 use crate::mem::MaybeUninit;
 use crate::num::NonZero;
 use crate::ops::{IndexRange, Range, Try};

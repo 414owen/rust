@@ -1,6 +1,4 @@
-use crate::iter::{FusedIterator, TrustedLen};
-
-use crate::iter::{Exact, QuantifiedIterator};
+use crate::iter::{Exact, FusedIterator, QuantifiedIterator, TrustedLen};
 
 /// Creates an iterator that yields an element exactly once.
 ///

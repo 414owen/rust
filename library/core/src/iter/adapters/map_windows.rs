@@ -1,5 +1,4 @@
-use crate::iter::FusedIterator;
-use crate::iter::{Exact, QuantifiedIterator};
+use crate::iter::{Exact, FusedIterator, QuantifiedIterator};
 use crate::mem::MaybeUninit;
 use crate::{fmt, ptr};
 

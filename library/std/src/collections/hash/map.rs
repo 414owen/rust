@@ -9,8 +9,7 @@ use crate::collections::{TryReserveError, TryReserveErrorKind};
 use crate::error::Error;
 use crate::fmt::{self, Debug};
 use crate::hash::{BuildHasher, Hash, RandomState};
-use crate::iter::{Exact, QuantifiedIterator};
-use crate::iter::FusedIterator;
+use crate::iter::{Exact, FusedIterator, QuantifiedIterator};
 use crate::ops::Index;
 
 /// A [hash map] implemented with quadratic probing and SIMD lookup.

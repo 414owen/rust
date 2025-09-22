@@ -1,5 +1,4 @@
-use core::iter::FusedIterator;
-use core::iter::{Exact, QuantifiedIterator};
+use core::iter::{Exact, FusedIterator, QuantifiedIterator};
 use core::marker::PhantomData;
 use core::mem::{self, SizedTypeProperties};
 use core::ptr::NonNull;

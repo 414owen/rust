@@ -1,5 +1,7 @@
-use core::iter::{FusedIterator, TrustedLen, TrustedRandomAccess, TrustedRandomAccessNoCoerce};
-use core::iter::{Exact, QuantifiedIterator};
+use core::iter::{
+    Exact, FusedIterator, QuantifiedIterator, TrustedLen, TrustedRandomAccess,
+    TrustedRandomAccessNoCoerce,
+};
 use core::num::NonZero;
 use core::ops::Try;
 use core::{fmt, mem, slice};

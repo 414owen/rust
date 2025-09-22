@@ -1,6 +1,6 @@
 use core::iter::{
-    Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, SourceIter, TrustedFused, TrustedLen,
-    TrustedRandomAccessNoCoerce,
+    Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, SourceIter, TrustedFused,
+    TrustedLen, TrustedRandomAccessNoCoerce,
 };
 use core::marker::PhantomData;
 use core::mem::{ManuallyDrop, MaybeUninit, SizedTypeProperties};

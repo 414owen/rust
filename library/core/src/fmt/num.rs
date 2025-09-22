@@ -64,10 +64,10 @@ macro_rules! radix_integer {
 /// Formatting of integers with a non-decimal radix.
 macro_rules! radix_integers {
     ($Signed:ident, $Unsigned:ident) => {
-radix_integer! { fmt::Binary   for $Signed and $Unsigned, "0b", b"01" }
-radix_integer! { fmt::Octal    for $Signed and $Unsigned, "0o", b"01234567" }
-radix_integer! { fmt::LowerHex for $Signed and $Unsigned, "0x", b"0123456789abcdef" }
-radix_integer! { fmt::UpperHex for $Signed and $Unsigned, "0x", b"0123456789ABCDEF" }
+        radix_integer! { fmt::Binary   for $Signed and $Unsigned, "0b", b"01" }
+        radix_integer! { fmt::Octal    for $Signed and $Unsigned, "0o", b"01234567" }
+        radix_integer! { fmt::LowerHex for $Signed and $Unsigned, "0x", b"0123456789abcdef" }
+        radix_integer! { fmt::UpperHex for $Signed and $Unsigned, "0x", b"0123456789ABCDEF" }
     };
 }
 radix_integers! { isize, usize }

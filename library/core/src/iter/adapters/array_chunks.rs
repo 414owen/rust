@@ -1,7 +1,8 @@
 use crate::array;
 use crate::iter::adapters::SourceIter;
 use crate::iter::{
-    ByRefSized, Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused, TrustedRandomAccessNoCoerce,
+    ByRefSized, Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused,
+    TrustedRandomAccessNoCoerce,
 };
 use crate::num::NonZero;
 use crate::ops::{ControlFlow, NeverShortCircuit, Try};

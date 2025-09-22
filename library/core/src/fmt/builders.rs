@@ -426,14 +426,14 @@ impl<'a, 'b: 'a> DebugTuple<'a, 'b> {
     ///     }
     /// }
     ///
-/// assert_eq!(
-///     format!("{:?}", Foo(10, "Hello World".to_string())),
-///     r#"Foo(10, "Hello World")"#,
-/// );
-/// ```
-#[stable(feature = "debug_builders", since = "1.2.0")]
-#[inline]
-pub fn finish(&mut self) -> fmt::Result {
+    /// assert_eq!(
+    ///     format!("{:?}", Foo(10, "Hello World".to_string())),
+    ///     r#"Foo(10, "Hello World")"#,
+    /// );
+    /// ```
+    #[stable(feature = "debug_builders", since = "1.2.0")]
+    #[inline]
+    pub fn finish(&mut self) -> fmt::Result {
         if self.fields > 0 {
             self.result = self.result.and_then(|_| {
                 if self.fields == 1 && self.empty_name && !self.is_pretty() {

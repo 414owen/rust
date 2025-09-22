@@ -8,8 +8,8 @@ use super::{
 };
 use crate::fmt::{self, Write};
 use crate::iter::{
-    Chain, Copied, Exact, Filter, FlatMap, Flatten, FusedIterator, Map, QuantifiedIterator, TrustedLen, TrustedRandomAccess,
-    TrustedRandomAccessNoCoerce,
+    Chain, Copied, Exact, Filter, FlatMap, Flatten, FusedIterator, Map, QuantifiedIterator,
+    TrustedLen, TrustedRandomAccess, TrustedRandomAccessNoCoerce,
 };
 use crate::num::NonZero;
 use crate::ops::Try;

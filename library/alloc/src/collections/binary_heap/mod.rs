@@ -144,7 +144,9 @@
 #![stable(feature = "rust1", since = "1.0.0")]
 
 use core::alloc::Allocator;
-use core::iter::{Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, SourceIter, TrustedFused, TrustedLen};
+use core::iter::{
+    Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, SourceIter, TrustedFused, TrustedLen,
+};
 use core::mem::{self, ManuallyDrop, swap};
 use core::num::NonZero;
 use core::ops::{Deref, DerefMut};
