@@ -1,21 +1,12 @@
-//! An iterator that will always produce more items.
+//! This module provides way to classify iterators and the knowledge we have
+//! about their lengths at runtime.
 //!
-//! This is useful in order to have more types implement `ExactSizeIterator`.
+//! The most useful quantity is `Exact`, which means we know its exact size
+//! at runtime.
 //!
-//! ```
-//! [1, 2, 3].zip(repeat(4))
-//! ```
-//!
-//! This is an iterator with a known exact size of three.
-//!
-//! In order to propagate this information to the compiler, we
-//! have:
-//!
-//! ```text
-//! impl<A: Clone> QuantifiedIterator for Repeat<A> {}
-//! impl<A: Clone, B: ExactSizeIterator> ExactSizeIterator for Zip<Repeat<A>, B> {}
-//! impl<A: ExactSizeIterator, B: Clone> ExactSizeIterator for Zip<A, Repeat<B>> {}
-//! ```
+//! The second most useful quantity is `Infinite`, whose iterators will, for
+//! example, when zipped with an `Exact`ly quantified iterator, produce another
+//! `Exact`ly quantified iterator.
 
 #[allow(missing_debug_implementations)]
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
@@ -33,29 +24,29 @@ pub struct Finite {}
 /// A quantity for iterators whose `.next()` function will never return `None`
 pub struct Infinite {}
 
-// Implements a type-level function with two parameters and one output
-// Takes the name the function, and the truth table.
+// Implements a type-level function with two parameters and one output.
+// Takes the name the function, and the pairs of inputs and ouputs.
 //
 // For example:
 // ```
-// type_fn! {
+// quantify_fn_2 ! {
 //   ChainQuantity;
-//   Exact, Finite => Finite;
 //   Exact, Infinite => Infinite;
+//   Infinite, Exact => Infinite;
 // }
 // ```
 //
-// Takes:
+// Creates:
 // ```
 // trait ChainQuantity {
 //     type Result;
 // }
 //
-// impl ChainQuantity for (Exact, Finite) {
-//     type Result = Finite;
+// impl ChainQuantity for (Exact, Infinite) {
+//     type Result = Infinite;
 // }
 //
-// impl ChainQuantity for (Exact, Infinite) {
+// impl ChainQuantity for (Infinite, Exact) {
 //     type Result = Infinite;
 // }
 // ```
