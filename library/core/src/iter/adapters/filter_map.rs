@@ -1,8 +1,5 @@
 use crate::iter::adapters::SourceIter;
-use crate::iter::{
-    Exact, Finite, FusedIterator, InPlaceIterable, Infinite, QuantifiedIterator, TrustedFused,
-    quantify_fn_1,
-};
+use crate::iter::{FusedIterator, InPlaceIterable, Infinite, QuantifiedIterator, TrustedFused};
 use crate::mem::{ManuallyDrop, MaybeUninit};
 use crate::num::NonZero;
 use crate::ops::{ControlFlow, Try};
@@ -215,17 +212,11 @@ unsafe impl<I: InPlaceIterable, F> InPlaceIterable for FilterMap<I, F> {
     const MERGE_BY: Option<NonZero<usize>> = I::MERGE_BY;
 }
 
-quantify_fn_1!(
-    FilterMapQuantity,
-    Infinite => Infinite,
-    Exact => Finite,
-);
-
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<B, I: QuantifiedIterator, F> QuantifiedIterator for FilterMap<I, F>
+impl<B, I, F> QuantifiedIterator for FilterMap<I, F>
 where
     F: FnMut(I::Item) -> Option<B>,
-    I::Quantity: FilterMapQuantity,
+    I: QuantifiedIterator<Quantity = Infinite>,
 {
-    type Quantity = <I::Quantity as FilterMapQuantity>::Result;
+    type Quantity = Infinite;
 }

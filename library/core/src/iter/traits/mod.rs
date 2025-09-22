@@ -14,7 +14,7 @@ pub use self::marker::TrustedFused;
 #[unstable(feature = "trusted_step", issue = "85731")]
 pub use self::marker::TrustedStep;
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-pub use self::quantified::{Exact, Finite, Infinite, QuantifiedIterator};
+pub use self::quantified::{Exact, Infinite, QuantifiedIterator};
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 pub(crate) use self::quantified::{quantify_fn_1, quantify_fn_2};
 pub(crate) use self::unchecked_iterator::UncheckedIterator;

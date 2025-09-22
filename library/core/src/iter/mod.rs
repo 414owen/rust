@@ -464,7 +464,7 @@ pub use self::traits::{
     DoubleEndedIterator, ExactSizeIterator, Extend, FromIterator, IntoIterator, Product, Sum,
 };
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-pub use self::traits::{Exact, Finite, Infinite, QuantifiedIterator};
+pub use self::traits::{Exact, Infinite, QuantifiedIterator};
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 pub(crate) use self::traits::{quantify_fn_1, quantify_fn_2};
 

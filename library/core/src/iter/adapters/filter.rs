@@ -4,7 +4,7 @@ use core::ops::ControlFlow;
 
 use crate::fmt;
 use crate::iter::adapters::SourceIter;
-use crate::iter::{FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused};
+use crate::iter::{FusedIterator, InPlaceIterable, Infinite, QuantifiedIterator, TrustedFused};
 use crate::num::NonZero;
 use crate::ops::Try;
 
@@ -215,22 +215,11 @@ unsafe impl<I: InPlaceIterable, P> InPlaceIterable for Filter<I, P> {
     const MERGE_BY: Option<NonZero<usize>> = I::MERGE_BY;
 }
 
-mod quantify_filter {
-    use crate::iter::{Exact, Infinite, quantify_fn_1};
-
-    quantify_fn_1!(
-        FilterQuantity,
-        Infinite => Infinite,
-        Exact => Finite,
-    );
-}
-
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<I, P> QuantifiedIterator for Filter<I, P>
 where
-    I: QuantifiedIterator,
+    I: QuantifiedIterator<Quantity = Infinite>,
     P: FnMut(&I::Item) -> bool,
-    I::Quantity: quantify_filter::FilterQuantity,
 {
-    type Quantity = <I::Quantity as quantify_filter::FilterQuantity>::Result;
+    type Quantity = Infinite;
 }

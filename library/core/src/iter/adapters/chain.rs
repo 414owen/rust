@@ -1,6 +1,4 @@
-use crate::iter::{
-    Exact, Finite, FusedIterator, Infinite, QuantifiedIterator, TrustedLen, quantify_fn_2,
-};
+use crate::iter::{Exact, FusedIterator, Infinite, QuantifiedIterator, TrustedLen, quantify_fn_2};
 use crate::num::NonZero;
 use crate::ops::Try;
 

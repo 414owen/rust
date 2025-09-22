@@ -182,7 +182,6 @@ mod quantify_flatten {
 
     quantify_fn_2!(
         FlattenQuantity,
-        Exact, Exact => Finite,
         Infinite, Exact => Infinite,
         Infinite, Infinite => Infinite,
     );
