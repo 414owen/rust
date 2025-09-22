@@ -8,5 +8,5 @@ impl A {
 
 fn main() {
     A.len();
-    //~^ ERROR: no method named `len` found for struct `A` in the current scope
+    //~^ ERROR: the method `len` exists for struct `A`, but its trait bounds were not satisfied [E0599]
 }
