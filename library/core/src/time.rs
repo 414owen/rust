@@ -416,8 +416,8 @@ impl Duration {
     /// assert_eq!(6 * 60 * 60, duration.as_secs());
     /// assert_eq!(0, duration.subsec_nanos());
     /// ```
-    #[stable(feature = "duration_constructors_lite", since = "1.92.0")]
-    #[rustc_const_stable(feature = "duration_constructors_lite", since = "1.92.0")]
+    #[stable(feature = "duration_constructors_lite", since = "CURRENT_RUSTC_VERSION")]
+    #[rustc_const_stable(feature = "duration_constructors_lite", since = "CURRENT_RUSTC_VERSION")]
     #[must_use]
     #[inline]
     pub const fn from_hours(hours: u64) -> Duration {
@@ -444,8 +444,8 @@ impl Duration {
     /// assert_eq!(10 * 60, duration.as_secs());
     /// assert_eq!(0, duration.subsec_nanos());
     /// ```
-    #[stable(feature = "duration_constructors_lite", since = "1.92.0")]
-    #[rustc_const_stable(feature = "duration_constructors_lite", since = "1.92.0")]
+    #[stable(feature = "duration_constructors_lite", since = "CURRENT_RUSTC_VERSION")]
+    #[rustc_const_stable(feature = "duration_constructors_lite", since = "CURRENT_RUSTC_VERSION")]
     #[must_use]
     #[inline]
     pub const fn from_mins(mins: u64) -> Duration {

@@ -1,6 +1,6 @@
 use crate::fmt;
 use crate::iter::adapters::SourceIter;
-use crate::iter::{FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused};
+use crate::iter::{Finite, FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused};
 use crate::num::NonZero;
 use crate::ops::{ControlFlow, Try};
 
@@ -131,4 +131,9 @@ unsafe impl<I: InPlaceIterable, F> InPlaceIterable for TakeWhile<I, F> {
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I, P> ! QuantifiedIterator for TakeWhile<I, P> {}
+impl<I: Iterator, P> QuantifiedIterator for TakeWhile<I, P>
+where
+    P: FnMut(&I::Item) -> bool,
+{
+    type Quantity = Finite;
+}
