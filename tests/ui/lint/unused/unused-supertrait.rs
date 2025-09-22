@@ -1,7 +1,7 @@
 #![deny(unused_must_use)]
 
 fn it() -> impl ExactSizeIterator<Item = ()> {
-    let x: Box<dyn ExactSizeIterator<Item = ()>> = todo!();
+    let x: Box<dyn QuantifiedIterator<Item = (), Quantity = Exact>> = todo!();
     x
 }
 

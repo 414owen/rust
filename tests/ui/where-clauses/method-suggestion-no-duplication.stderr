@@ -1,12 +1,19 @@
-error[E0599]: no method named `is_empty` found for struct `Foo` in the current scope
+error[E0599]: the method `is_empty` exists for struct `Foo`, but its trait bounds were not satisfied
   --> $DIR/method-suggestion-no-duplication.rs:7:15
    |
 LL | struct Foo;
-   | ---------- method `is_empty` not found for this struct
+   | ---------- method `is_empty` not found for this struct because it doesn't satisfy `<Foo as QuantifiedIterator>::Quantity = Exact`, `Foo: ExactSizeIterator` or `Foo: QuantifiedIterator`
 ...
 LL |     foo(|s| s.is_empty());
-   |               ^^^^^^^^ method not found in `Foo`
+   |               ^^^^^^^^ method cannot be called on `Foo` due to unsatisfied trait bounds
    |
+   = note: the following trait bounds were not satisfied:
+           `<Foo as QuantifiedIterator>::Quantity = Exact`
+           which is required by `Foo: ExactSizeIterator`
+           `Foo: QuantifiedIterator`
+           which is required by `Foo: ExactSizeIterator`
+note: the trait `QuantifiedIterator` must be implemented
+  --> $SRC_DIR/core/src/iter/traits/quantified.rs:LL:COL
    = help: items from traits can only be used if the trait is implemented and in scope
    = note: the following traits define an item `is_empty`, perhaps you need to implement one of them:
            candidate #1: `ExactSizeIterator`
