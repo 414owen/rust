@@ -130,12 +130,11 @@ unsafe impl<I: InPlaceIterable, F> InPlaceIterable for SkipWhile<I, F> {
 }
 
 mod quantify_skip_while {
-    use crate::iter::{Exact, Finite, Infinite, quantify_fn_1};
+    use crate::iter::{Exact, Infinite, quantify_fn_1};
 
     quantify_fn_1!(
         SkipWhileQuantity,
         Exact => Finite,
-        Finite => Finite,
         Infinite => Infinite,
     );
 }

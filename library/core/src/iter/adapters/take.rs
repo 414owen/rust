@@ -241,13 +241,12 @@ where
 }
 
 mod take_quantify {
-    use crate::iter::{Exact, Finite, Infinite, quantify_fn_1};
+    use crate::iter::{Exact, Infinite, quantify_fn_1};
 
     quantify_fn_1!(
         TakeQuantity,
         Exact => Exact,
         Infinite => Exact,
-        Finite => Finite,
     );
 }
 

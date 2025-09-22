@@ -341,14 +341,9 @@ fn and_then_or_clear<T, U>(opt: &mut Option<T>, f: impl FnOnce(&mut T) -> Option
 quantify_fn_2!(
     ChainQuantity,
     Exact, Exact => Exact,
-    Exact, Finite => Finite,
-    Finite, Exact => Finite,
-    Finite, Finite => Finite,
     Infinite, Infinite => Infinite,
     Infinite, Exact => Infinite,
-    Infinite, Finite => Infinite,
     Exact, Infinite => Infinite,
-    Finite, Infinite => Infinite,
 );
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]

@@ -173,7 +173,7 @@ where
 }
 
 mod quantify_flatten {
-    use crate::iter::{Exact, Finite, Infinite, quantify_fn_2};
+    use crate::iter::{Exact, Infinite, quantify_fn_2};
 
     // Cases (Exact, Infinite), and (Finite, Infinite)
     // will either yield no element or infinite elements
@@ -183,11 +183,7 @@ mod quantify_flatten {
     quantify_fn_2!(
         FlattenQuantity,
         Exact, Exact => Finite,
-        Exact, Finite => Finite,
-        Finite, Exact => Finite,
-        Finite, Finite => Finite,
         Infinite, Exact => Infinite,
-        Infinite, Finite => Infinite,
         Infinite, Infinite => Infinite,
     );
 }

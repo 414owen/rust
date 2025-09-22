@@ -15,12 +15,6 @@ pub struct Exact {}
 
 #[allow(missing_debug_implementations)]
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-/// A quantity for iterators which are known to terminate, but whose exact length
-/// isn't known at runtime
-pub struct Finite {}
-
-#[allow(missing_debug_implementations)]
-#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 /// A quantity for iterators whose `.next()` function will never return `None`
 pub struct Infinite {}
 

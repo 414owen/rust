@@ -219,7 +219,6 @@ quantify_fn_1!(
     FilterMapQuantity,
     Infinite => Infinite,
     Exact => Finite,
-    Finite => Finite,
 );
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]

@@ -407,18 +407,13 @@ where
 }
 
 mod zip_quantify {
-    use crate::iter::{Exact, Finite, Infinite, quantify_fn_2};
+    use crate::iter::{Exact, Infinite, quantify_fn_2};
 
     quantify_fn_2!(
         ZipQuantity,
         Exact, Exact => Exact,
         Exact, Infinite => Exact,
         Infinite, Exact => Exact,
-        Exact, Finite => Finite,
-        Finite, Exact => Finite,
-        Finite, Finite => Finite,
-        Finite, Infinite => Finite,
-        Infinite, Finite => Finite,
         Infinite, Infinite => Infinite,
     );
 }

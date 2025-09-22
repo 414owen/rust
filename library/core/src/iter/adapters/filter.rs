@@ -216,11 +216,10 @@ unsafe impl<I: InPlaceIterable, P> InPlaceIterable for Filter<I, P> {
 }
 
 mod quantify_filter {
-    use crate::iter::{Exact, Finite, Infinite, quantify_fn_1};
+    use crate::iter::{Exact, Infinite, quantify_fn_1};
 
     quantify_fn_1!(
         FilterQuantity,
-        Finite => Finite,
         Infinite => Infinite,
         Exact => Finite,
     );
