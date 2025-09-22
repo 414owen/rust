@@ -2410,7 +2410,7 @@ impl<A> Iterator for Item<A> {
 
     #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) {
-        let len = self.len();
+        let len = self.opt.len();
         (len, Some(len))
     }
 }

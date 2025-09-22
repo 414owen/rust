@@ -330,7 +330,7 @@ impl Iterator for EscapeDebug {
 
     #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) {
-        let n = self.len();
+        let n = self.0.len();
         (n, Some(n))
     }
 
@@ -421,14 +421,8 @@ macro_rules! casemappingiter_impls {
         impl FusedIterator for $ITER_NAME {}
 
         #[stable(feature = "exact_size_case_mapping_iter", since = "1.35.0")]
-        impl ExactSizeIterator for $ITER_NAME {
-            fn len(&self) -> usize {
-                self.0.len()
-            }
-
-            fn is_empty(&self) -> bool {
-                self.0.is_empty()
-            }
+        impl QuantifiedIterator for $ITER_NAME {
+            type Quantity = crate::iter::Exact;
         }
 
         // SAFETY: forwards to inner `array::IntoIter`

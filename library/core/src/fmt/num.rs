@@ -11,6 +11,7 @@ macro_rules! radix_integer {
         #[stable(feature = "rust1", since = "1.0.0")]
         impl fmt::$Trait for $Unsigned {
             /// Format unsigned integers in the radix.
+            #[inline]
             fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
                 // Check macro arguments at compile time.
                 const {
@@ -63,10 +64,10 @@ macro_rules! radix_integer {
 /// Formatting of integers with a non-decimal radix.
 macro_rules! radix_integers {
     ($Signed:ident, $Unsigned:ident) => {
-        radix_integer! { fmt::Binary   for $Signed and $Unsigned, "0b", b"01" }
-        radix_integer! { fmt::Octal    for $Signed and $Unsigned, "0o", b"01234567" }
-        radix_integer! { fmt::LowerHex for $Signed and $Unsigned, "0x", b"0123456789abcdef" }
-        radix_integer! { fmt::UpperHex for $Signed and $Unsigned, "0x", b"0123456789ABCDEF" }
+radix_integer! { fmt::Binary   for $Signed and $Unsigned, "0b", b"01" }
+radix_integer! { fmt::Octal    for $Signed and $Unsigned, "0o", b"01234567" }
+radix_integer! { fmt::LowerHex for $Signed and $Unsigned, "0x", b"0123456789abcdef" }
+radix_integer! { fmt::UpperHex for $Signed and $Unsigned, "0x", b"0123456789ABCDEF" }
     };
 }
 radix_integers! { isize, usize }
@@ -110,6 +111,7 @@ static DECIMAL_PAIRS: &[u8; 200] = b"\
 ///
 /// `buf` content starting from `offset` index MUST BE initialized and MUST BE ascii
 /// characters.
+#[inline]
 unsafe fn slice_buffer_to_str(buf: &[MaybeUninit<u8>], offset: usize) -> &str {
     // SAFETY: `offset` is always included between 0 and `buf`'s length.
     let written = unsafe { buf.get_unchecked(offset..) };
@@ -132,6 +134,7 @@ macro_rules! impl_Display {
 
         #[stable(feature = "rust1", since = "1.0.0")]
         impl fmt::Display for $Unsigned {
+            #[inline]
             fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
                 #[cfg(not(feature = "optimize_for_size"))]
                 {
@@ -180,6 +183,7 @@ macro_rules! impl_Display {
                 reason = "specialized method meant to only be used by `SpecToString` implementation",
                 issue = "none"
             )]
+            #[inline]
             pub unsafe fn _fmt<'a>(self, buf: &'a mut [MaybeUninit::<u8>]) -> &'a str {
                 // SAFETY: `buf` will always be big enough to contain all digits.
                 let offset = unsafe { self._fmt_inner(buf) };
@@ -187,6 +191,7 @@ macro_rules! impl_Display {
                 unsafe { slice_buffer_to_str(buf, offset) }
             }
 
+            #[inline]
             unsafe fn _fmt_inner(self, buf: &mut [MaybeUninit::<u8>]) -> usize {
                 // Count the number of bytes in buf that are not initialized.
                 let mut offset = buf.len();

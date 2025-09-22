@@ -18,6 +18,7 @@ impl Default for PadAdapterState {
 }
 
 impl<'buf, 'state> PadAdapter<'buf, 'state> {
+    #[inline]
     fn wrap<'slot, 'fmt: 'buf + 'slot>(
         fmt: &'fmt mut fmt::Formatter<'_>,
         slot: &'slot mut Option<Self>,
@@ -28,6 +29,7 @@ impl<'buf, 'state> PadAdapter<'buf, 'state> {
 }
 
 impl fmt::Write for PadAdapter<'_, '_> {
+    #[inline]
     fn write_str(&mut self, s: &str) -> fmt::Result {
         for s in s.split_inclusive('\n') {
             if self.state.on_newline {
@@ -293,6 +295,7 @@ pub struct DebugTuple<'a, 'b: 'a> {
     empty_name: bool,
 }
 
+#[inline]
 pub(super) fn debug_tuple_new<'a, 'b>(
     fmt: &'a mut fmt::Formatter<'b>,
     name: &str,
@@ -326,6 +329,7 @@ impl<'a, 'b: 'a> DebugTuple<'a, 'b> {
     /// );
     /// ```
     #[stable(feature = "debug_builders", since = "1.2.0")]
+    #[inline]
     pub fn field(&mut self, value: &dyn fmt::Debug) -> &mut Self {
         self.field_with(|f| value.fmt(f))
     }
@@ -422,13 +426,14 @@ impl<'a, 'b: 'a> DebugTuple<'a, 'b> {
     ///     }
     /// }
     ///
-    /// assert_eq!(
-    ///     format!("{:?}", Foo(10, "Hello World".to_string())),
-    ///     r#"Foo(10, "Hello World")"#,
-    /// );
-    /// ```
-    #[stable(feature = "debug_builders", since = "1.2.0")]
-    pub fn finish(&mut self) -> fmt::Result {
+/// assert_eq!(
+///     format!("{:?}", Foo(10, "Hello World".to_string())),
+///     r#"Foo(10, "Hello World")"#,
+/// );
+/// ```
+#[stable(feature = "debug_builders", since = "1.2.0")]
+#[inline]
+pub fn finish(&mut self) -> fmt::Result {
         if self.fields > 0 {
             self.result = self.result.and_then(|_| {
                 if self.fields == 1 && self.empty_name && !self.is_pretty() {

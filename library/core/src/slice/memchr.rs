@@ -47,6 +47,7 @@ const fn memchr_naive(x: u8, text: &[u8]) -> Option<usize> {
     None
 }
 
+#[inline]
 #[rustc_allow_const_fn_unstable(const_eval_select)] // fallback impl has same behavior
 const fn memchr_aligned(x: u8, text: &[u8]) -> Option<usize> {
     // The runtime version behaves the same as the compiletime version, it's

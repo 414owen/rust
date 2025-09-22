@@ -1,5 +1,4 @@
-use crate::iter::{TrustedLen, UncheckedIterator};
-use crate::iter::{Exact, QuantifiedIterator};
+use crate::iter::{Exact, QuantifiedIterator, TrustedLen, UncheckedIterator};
 use crate::mem::ManuallyDrop;
 use crate::ptr::drop_in_place;
 use crate::slice;
@@ -51,11 +50,11 @@ impl<T> Iterator for Drain<'_, T> {
 
     #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) {
-        let n = self.len();
-        (n, Some(n))
+        self.0.size_hint()
     }
 }
 
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<T> QuantifiedIterator for Drain<'_, T> {
     type Quantity = Exact;
 }

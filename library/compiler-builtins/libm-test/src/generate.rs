@@ -7,11 +7,19 @@ pub mod spaced;
 
 /// A wrapper to turn any iterator into an `ExactSizeIterator`. Asserts the final result to ensure
 /// the provided size was correct.
-#[derive(Debug)]
 pub struct KnownSize<I> {
     total: u64,
     current: u64,
     iter: I,
+}
+
+impl<I> fmt::Debug for KnownSize<I> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("KnownSize")
+            .field("total", &self.total)
+            .field("current", &self.current)
+            .finish()
+    }
 }
 
 impl<I> KnownSize<I> {

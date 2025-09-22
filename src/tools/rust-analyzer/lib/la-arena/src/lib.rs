@@ -6,7 +6,7 @@
 use std::{
     cmp, fmt,
     hash::{Hash, Hasher},
-    iter::{Enumerate, FusedIterator},
+    iter::{Enumerate, FusedIterator, QuantifiedIterator},
     marker::PhantomData,
     ops::{Index, IndexMut, Range, RangeInclusive},
 };
@@ -222,7 +222,9 @@ impl<T> DoubleEndedIterator for IdxRange<T> {
     }
 }
 
-impl<T> ExactSizeIterator for IdxRange<T> {}
+impl<T> QuantifiedIterator for IdxRange<T> {
+    type Quantity = Exact;
+}
 
 impl<T> FusedIterator for IdxRange<T> {}
 

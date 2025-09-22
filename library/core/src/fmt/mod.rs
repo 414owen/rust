@@ -497,6 +497,7 @@ impl FormattingOptions {
     }
     /// Returns the current fill character.
     #[unstable(feature = "formatting_options", issue = "118117")]
+    #[inline]
     pub const fn get_fill(&self) -> char {
         // SAFETY: We only ever put a valid `char` in the lower 21 bits of the flags field.
         unsafe { char::from_u32_unchecked(self.flags & 0x1FFFFF) }
@@ -1447,6 +1448,7 @@ pub trait UpperExp: PointeeSized {
 ///
 /// [`write!`]: crate::write!
 #[stable(feature = "rust1", since = "1.0.0")]
+#[inline]
 pub fn write(output: &mut dyn Write, args: Arguments<'_>) -> Result {
     let mut formatter = Formatter::new(output, FormattingOptions::new());
     let mut idx = 0;
@@ -1496,6 +1498,7 @@ pub fn write(output: &mut dyn Write, args: Arguments<'_>) -> Result {
     Ok(())
 }
 
+#[inline]
 unsafe fn run(fmt: &mut Formatter<'_>, arg: &rt::Placeholder, args: &[rt::Argument<'_>]) -> Result {
     let (width, precision) =
         // SAFETY: arg and args come from the same Arguments,
@@ -1518,6 +1521,7 @@ unsafe fn run(fmt: &mut Formatter<'_>, arg: &rt::Placeholder, args: &[rt::Argume
     unsafe { value.fmt(fmt) }
 }
 
+#[inline]
 unsafe fn getcount(args: &[rt::Argument<'_>], cnt: &rt::Count) -> u16 {
     match *cnt {
         rt::Count::Is(n) => n,
@@ -1544,6 +1548,7 @@ impl PostPadding {
     }
 
     /// Writes this post padding.
+    #[inline]
     pub(crate) fn write(self, f: &mut Formatter<'_>) -> Result {
         for _ in 0..self.padding {
             f.buf.write_char(self.fill)?;
@@ -1553,6 +1558,7 @@ impl PostPadding {
 }
 
 impl<'a> Formatter<'a> {
+    #[inline]
     fn wrap_buf<'b, 'c, F>(&'b mut self, wrap: F) -> Formatter<'c>
     where
         'b: 'c,
@@ -1615,6 +1621,7 @@ impl<'a> Formatter<'a> {
     /// assert_eq!(format!("{:0>#8}", Foo::new(-1)), "00-Foo 1");
     /// ```
     #[stable(feature = "rust1", since = "1.0.0")]
+    #[inline]
     pub fn pad_integral(&mut self, is_nonnegative: bool, prefix: &str, buf: &str) -> Result {
         let mut width = buf.len();
 
@@ -1635,7 +1642,7 @@ impl<'a> Formatter<'a> {
         };
 
         // Writes the sign if it exists, and then the prefix if it was requested
-        #[inline(never)]
+        #[inline]
         fn write_prefix(f: &mut Formatter<'_>, sign: Option<char>, prefix: Option<&str>) -> Result {
             if let Some(c) = sign {
                 f.buf.write_char(c)?;
@@ -1699,6 +1706,7 @@ impl<'a> Formatter<'a> {
     /// assert_eq!(format!("{Foo:0>4}"), "0Foo");
     /// ```
     #[stable(feature = "rust1", since = "1.0.0")]
+    #[inline]
     pub fn pad(&mut self, s: &str) -> Result {
         // Make sure there's a fast path up front.
         if self.options.flags & (flags::WIDTH_FLAG | flags::PRECISION_FLAG) == 0 {
@@ -1741,6 +1749,7 @@ impl<'a> Formatter<'a> {
     ///
     /// Callers are responsible for ensuring post-padding is written after the
     /// thing that is being padded.
+    #[inline]
     pub(crate) fn padding(
         &mut self,
         padding: u16,
@@ -1882,6 +1891,7 @@ impl<'a> Formatter<'a> {
     /// assert_eq!(format!("{Foo:0>8}"), "Foo");
     /// ```
     #[stable(feature = "rust1", since = "1.0.0")]
+    #[inline]
     pub fn write_str(&mut self, data: &str) -> Result {
         self.buf.write_str(data)
     }
@@ -2399,6 +2409,7 @@ impl<'a> Formatter<'a> {
     /// for 1 field.
     #[doc(hidden)]
     #[unstable(feature = "fmt_helpers_for_derive", issue = "none")]
+    #[inline]
     pub fn debug_tuple_field1_finish<'b>(&'b mut self, name: &str, value1: &dyn Debug) -> Result {
         let mut builder = builders::debug_tuple_new(self, name);
         builder.field(value1);

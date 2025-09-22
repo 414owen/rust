@@ -67,7 +67,9 @@ impl<I: DoubleEndedIterator + ?Sized, A: Allocator> DoubleEndedIterator for Box<
     }
 }
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<I: QuantifiedIterator<Quantity = Exact> + ?Sized, A: Allocator> QuantifiedIterator for Box<I, A> {
+impl<I: QuantifiedIterator<Quantity = Exact> + ?Sized, A: Allocator> QuantifiedIterator
+    for Box<I, A>
+{
     type Quantity = Exact;
 }
 

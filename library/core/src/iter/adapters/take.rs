@@ -1,7 +1,7 @@
 use crate::cmp;
 use crate::iter::adapters::SourceIter;
 use crate::iter::{
-    Exact, FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused, TrustedLen,
+    FusedIterator, InPlaceIterable, QuantifiedIterator, TrustedFused, TrustedLen,
     TrustedRandomAccess,
 };
 use crate::num::NonZero;
@@ -240,12 +240,24 @@ where
     }
 }
 
+mod take_quantify {
+    use crate::iter::{Exact, Finite, Infinite, quantify_fn_1};
+
+    quantify_fn_1!(
+        TakeQuantity,
+        Exact => Exact,
+        Infinite => Exact,
+        Finite => Finite,
+    );
+}
+
 #[stable(feature = "rust1", since = "1.0.0")]
 impl<I> QuantifiedIterator for Take<I>
 where
-    I: QuantifiedIterator<Quantity = Exact>,
+    I: QuantifiedIterator,
+    I::Quantity: take_quantify::TakeQuantity,
 {
-    type Quantity = Exact;
+    type Quantity = <I::Quantity as take_quantify::TakeQuantity>::Result;
 }
 
 #[stable(feature = "fused", since = "1.26.0")]
