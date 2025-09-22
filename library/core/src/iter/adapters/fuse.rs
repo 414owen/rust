@@ -2,7 +2,8 @@ use crate::intrinsics;
 use crate::iter::adapters::SourceIter;
 use crate::iter::adapters::zip::try_get_unchecked;
 use crate::iter::{
-    Exact, FusedIterator, QuantifiedIterator, TrustedFused, TrustedLen, TrustedRandomAccess, TrustedRandomAccessNoCoerce,
+    FusedIterator, QuantifiedIterator, TrustedFused, TrustedLen, TrustedRandomAccess,
+    TrustedRandomAccessNoCoerce,
 };
 use crate::ops::Try;
 
@@ -171,9 +172,9 @@ where
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<I> QuantifiedIterator for Fuse<I>
 where
-    I: QuantifiedIterator<Quantity = Exact>,
+    I: QuantifiedIterator,
 {
-    type Quantity = Exact;
+    type Quantity = I::Quantity;
 }
 
 #[stable(feature = "default_iters", since = "1.70.0")]

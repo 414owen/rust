@@ -106,6 +106,7 @@ impl<'a> Iterator for CommandEnvs<'a> {
     }
 }
 
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 impl<'a> QuantifiedIterator for CommandEnvs<'a> {
     type Quantity = Exact;
 }

@@ -62,10 +62,9 @@ impl Iterator for Args {
     }
 }
 
-impl  QuantifiedIterator for Args {
-    fn len(&self) -> usize {
-        self.count
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl QuantifiedIterator for Args {
+    type Quantity = std::iter::Exact;
 }
 
 impl DoubleEndedIterator for Args {

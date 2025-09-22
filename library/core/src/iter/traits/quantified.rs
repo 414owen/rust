@@ -17,20 +17,20 @@
 //! impl<A: ExactSizeIterator, B: Clone> ExactSizeIterator for Zip<A, Repeat<B>> {}
 //! ```
 
+#[allow(missing_debug_implementations)]
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-#[derive(Debug)]
 /// A quantity for qhich ExactSizeIterator is blanket-defined
 pub struct Exact {}
 
+#[allow(missing_debug_implementations)]
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 /// A quantity for iterators which are known to terminate, but whose exact length
 /// isn't known at runtime
-#[derive(Debug)]
 pub struct Finite {}
 
+#[allow(missing_debug_implementations)]
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
 /// A quantity for iterators whose `.next()` function will never return `None`
-#[derive(Debug)]
 pub struct Infinite {}
 
 // Implements a type-level function with two parameters and one output

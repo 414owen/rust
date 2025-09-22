@@ -343,14 +343,9 @@ impl<'a> Iterator for CommandArgs<'a> {
     }
 }
 
-impl<'a>  QuantifiedIterator for CommandArgs<'a> {
-    fn len(&self) -> usize {
-        self.iter.len()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.iter.is_empty()
-    }
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+impl<'a> QuantifiedIterator for CommandArgs<'a> {
+    type Quantity = core::iter::Exact;
 }
 
 impl<'a> fmt::Debug for CommandArgs<'a> {
