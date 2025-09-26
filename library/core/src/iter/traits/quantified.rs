@@ -101,7 +101,71 @@ pub trait QuantifiedIterator: Iterator {
     /// In the case where you don't know which of these behaviours fits your iterator,
     /// don't implement this trait at all.
     #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-    type Quantity;
+    type Quantity = Exact;
+
+    /// Returns the exact remaining length of the iterator.
+    ///
+    /// The implementation ensures that the iterator will return exactly `len()`
+    /// more times a [`Some(T)`] value, before returning [`None`].
+    /// This method has a default implementation, so you usually should not
+    /// implement it directly. However, if you can provide a more efficient
+    /// implementation, you can do so. See the [trait-level] docs for an
+    /// example.
+    ///
+    /// This function has the same safety guarantees as the
+    /// [`Iterator::size_hint`] function.
+    ///
+    /// [trait-level]: ExactSizeIterator
+    /// [`Some(T)`]: Some
+    ///
+    /// # Examples
+    ///
+    /// Basic usage:
+    ///
+    /// ```
+    /// // a finite range knows exactly how many times it will iterate
+    /// let mut range = 0..5;
+    ///
+    /// assert_eq!(5, range.len());
+    /// let _ = range.next();
+    /// assert_eq!(4, range.len());
+    /// ```
+    #[inline]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    fn len(&self) -> usize
+    where
+        Self: QuantifiedIterator<Quantity = Exact>,
+    {
+        let (lower, upper) = self.size_hint();
+        assert_eq!(upper, Some(lower));
+        lower
+    }
+
+    /// Returns `true` if the iterator is empty.
+    ///
+    /// This method has a default implementation using
+    /// [`ExactSizeIterator::len()`], so you don't need to implement it yourself.
+    ///
+    /// # Examples
+    ///
+    /// Basic usage:
+    ///
+    /// ```
+    /// #![feature(exact_size_is_empty)]
+    ///
+    /// let mut one_element = std::iter::once(0);
+    /// assert!(!one_element.is_empty());
+    ///
+    /// assert_eq!(one_element.next(), Some(0));
+    /// assert!(one_element.is_empty());
+    ///
+    /// assert_eq!(one_element.next(), None);
+    /// ```
+    #[inline]
+    #[unstable(feature = "exact_size_is_empty", issue = "35428")]
+    fn is_empty(&self) -> bool {
+        self.len() == 0
+    }
 }
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]

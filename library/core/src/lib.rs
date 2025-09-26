@@ -138,6 +138,7 @@
 #![feature(adt_const_params)]
 #![feature(allow_internal_unsafe)]
 #![feature(allow_internal_unstable)]
+#![feature(associated_type_defaults)]
 #![feature(auto_traits)]
 #![feature(cfg_sanitize)]
 #![feature(cfg_target_has_atomic)]

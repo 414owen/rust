@@ -1,4 +1,8 @@
-use crate::iter::{Exact, QuantifiedIterator};
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+pub use QuantifiedIterator as ExactSizeIterator;
+
+#[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
+pub use crate::iter::QuantifiedIterator;
 
 /// An iterator that knows its exact length.
 ///
@@ -85,72 +89,7 @@ use crate::iter::{Exact, QuantifiedIterator};
 /// assert_eq!(4, counter.len());
 /// ```
 #[stable(feature = "rust1", since = "1.0.0")]
-pub trait ExactSizeIterator: Iterator {
-    /// Returns the exact remaining length of the iterator.
-    ///
-    /// The implementation ensures that the iterator will return exactly `len()`
-    /// more times a [`Some(T)`] value, before returning [`None`].
-    /// This method has a default implementation, so you usually should not
-    /// implement it directly. However, if you can provide a more efficient
-    /// implementation, you can do so. See the [trait-level] docs for an
-    /// example.
-    ///
-    /// This function has the same safety guarantees as the
-    /// [`Iterator::size_hint`] function.
-    ///
-    /// [trait-level]: ExactSizeIterator
-    /// [`Some(T)`]: Some
-    ///
-    /// # Examples
-    ///
-    /// Basic usage:
-    ///
-    /// ```
-    /// // a finite range knows exactly how many times it will iterate
-    /// let mut range = 0..5;
-    ///
-    /// assert_eq!(5, range.len());
-    /// let _ = range.next();
-    /// assert_eq!(4, range.len());
-    /// ```
-    #[inline]
-    #[stable(feature = "rust1", since = "1.0.0")]
-    fn len(&self) -> usize {
-        let (lower, upper) = self.size_hint();
-        // Note: This assertion is overly defensive, but it checks the invariant
-        // guaranteed by the trait. If this trait were rust-internal,
-        // we could use debug_assert!; assert_eq! will check all Rust user
-        // implementations too.
-        assert_eq!(upper, Some(lower));
-        lower
-    }
-
-    /// Returns `true` if the iterator is empty.
-    ///
-    /// This method has a default implementation using
-    /// [`ExactSizeIterator::len()`], so you don't need to implement it yourself.
-    ///
-    /// # Examples
-    ///
-    /// Basic usage:
-    ///
-    /// ```
-    /// #![feature(exact_size_is_empty)]
-    ///
-    /// let mut one_element = std::iter::once(0);
-    /// assert!(!one_element.is_empty());
-    ///
-    /// assert_eq!(one_element.next(), Some(0));
-    /// assert!(one_element.is_empty());
-    ///
-    /// assert_eq!(one_element.next(), None);
-    /// ```
-    #[inline]
-    #[unstable(feature = "exact_size_is_empty", issue = "35428")]
-    fn is_empty(&self) -> bool {
-        self.len() == 0
-    }
-}
+pub trait ExactSizeIteratorCompat: Iterator {}
 
 #[stable(feature = "infinite_iterator_trait", since = "CURRENT_RUSTC_VERSION")]
-impl<A> ExactSizeIterator for A where A: QuantifiedIterator<Quantity = Exact> {}
+impl<A> ExactSizeIteratorCompat for A where A: ExactSizeIterator {}
